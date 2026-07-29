@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>음악 임용 암기 트레이너</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>🎵 음악 임용 암기 트레이너</h1>
+
+<div id="home">
+
+<h2>공통</h2>
+
+<label><input type="checkbox" value="중학교|연주"> 중학교 연주</label><br>
+<label><input type="checkbox" value="중학교|감상"> 중학교 감상</label><br>
+<label><input type="checkbox" value="중학교|창작"> 중학교 창작</label><br><br>
+
+<label><input type="checkbox" value="고등학교|연주"> 고등학교 연주</label><br>
+<label><input type="checkbox" value="고등학교|감상"> 고등학교 감상</label><br>
+<label><input type="checkbox" value="고등학교|창작"> 고등학교 창작</label>
+
+<h2>진로선택</h2>
+
+<label><input type="checkbox" value="음악 연주와 창작"> 음악 연주와 창작</label><br>
+<label><input type="checkbox" value="음악 감상과 비평"> 음악 감상과 비평</label><br>
+<label><input type="checkbox" value="음악과 미디어"> 음악과 미디어</label>
+<h2>학습모드</h2>
+
+
+<label>
+    <input type="radio" name="studyMode" value="exam" checked>
+    시험모드
+</label><br>
+
+<label>
+    <input type="radio" name="studyMode" value="practice">
+    연습모드
+</label>
+
+<br><br>
+<h2>출제방식</h2>
+
+<label><input type="radio" name="mode" value="order" checked> 순서대로</label><br>
+<label><input type="radio" name="mode" value="random"> 랜덤</label>
+
+<br><br>
+
+<button onclick="startQuiz()">시작하기</button>
+
+</div>
+
+<div id="quiz" style="display:none;">
+
+<h3 id="school"></h3>
+<h2 id="area"></h2>
+<h2 id="code"></h2>
+
+<button
+id="toggleBtn"
+onclick="toggleQuestion()"
+style="display:none;">
+🙈 내용 숨기기
+</button>
+
+<div id="question"></div>
+
+<textarea
+id="answer"
+placeholder="여기에 입력하세요"></textarea>
+
+<div id="progress"></div>
+
+<div class="buttons">
+
+<button onclick="goHome()">🏠 홈</button>
+
+<button onclick="prevQuestion()">◀ 이전</button>
+
+<button onclick="checkAnswer()">제출</button>
+<button onclick="nextQuestion()">다음 ▶</button>
+
+</div>
+
+<div id="result"></div>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
+

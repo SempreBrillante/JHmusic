@@ -1,0 +1,97 @@
+body{
+    margin:0;
+    padding:0;
+    background:#f5f6fa;
+    font-family:'맑은 고딕',sans-serif;
+}
+
+.container{
+    width:800px;
+    max-width:90%;
+    margin:40px auto;
+    background:white;
+    padding:30px;
+    border-radius:15px;
+    box-shadow:0 0 15px rgba(0,0,0,0.1);
+}
+
+h1{
+    text-align:center;
+    color:#5b4bdb;
+}
+
+#school{
+    color:#666;
+    margin-bottom:5px;
+}
+
+#area{
+    color:#5b4bdb;
+    margin-top:0;
+}
+
+#code{
+    background:#ece9ff;
+    padding:10px;
+    border-radius:8px;
+    display:inline-block;
+}
+
+#question{
+    margin-top:25px;
+    font-size:22px;
+    line-height:1.8;
+    min-height:120px;
+    white-space:pre-wrap;
+}
+
+textarea{
+    width:100%;
+    height:180px;
+    font-size:18px;
+    padding:15px;
+    margin-top:20px;
+    border-radius:10px;
+    border:2px solid #ccc;
+    resize:vertical;
+    box-sizing:border-box;
+}
+
+.buttons{
+    margin-top:20px;
+    display:flex;
+    gap:10px;
+}
+
+button{
+    flex:1;
+    padding:15px;
+    border:none;
+    border-radius:10px;
+    background:#5b4bdb;
+    color:white;
+    font-size:18px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#4838c7;
+}
+
+#result{
+    margin-top:20px;
+    font-size:20px;
+    font-weight:bold;
+}
+
+#progress{
+
+    margin-top:20px;
+    margin-bottom:15px;
+
+    font-size:22px;
+    font-weight:bold;
+
+    color:#5b4bdb;
+
+}
