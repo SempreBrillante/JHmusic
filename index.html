@@ -1,98 +1,295 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>음악 임용 암기 트레이너</title>
-<link rel="stylesheet" href="style.css">
-</head>
+    <!DOCTYPE html>
+    <html lang="ko">
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>음악 임용 암기 트레이너</title>
+    <link rel="stylesheet" href="style.css">
+    </head>
 
-<body>
+    <body>
 
-<div class="container">
+    <div id="startGate" class="startGate">
+        <div class="startCard">
+            <h1>🎵 음악 임용 암기 트레이너</h1>
+            <p><strong>그럼에도 불구하고.</strong></p>
+            <input id="startPhraseInput" type="text" autocomplete="off" placeholder="시작 문구 입력">
+            <button id="startGateButton" type="button">시작하기</button>
+            <p id="startGateMessage" class="startGateMessage" aria-live="polite"></p>
+        </div>
+    </div>
 
-<h1>🎵 음악 임용 암기 트레이너</h1>
+    <div id="appContent" class="container" style="display:none;">
 
-<div id="home">
+    <h1>🎵 음악 임용 암기 트레이너</h1>
 
-<h2>공통</h2>
+    <div id="appModeOption" class="homeCard">
 
-<label><input type="checkbox" value="중학교|연주"> 중학교 연주</label><br>
-<label><input type="checkbox" value="중학교|감상"> 중학교 감상</label><br>
-<label><input type="checkbox" value="중학교|창작"> 중학교 창작</label><br><br>
+        <h2>학습 종류</h2>
 
-<label><input type="checkbox" value="고등학교|연주"> 고등학교 연주</label><br>
-<label><input type="checkbox" value="고등학교|감상"> 고등학교 감상</label><br>
-<label><input type="checkbox" value="고등학교|창작"> 고등학교 창작</label>
+        <label>
+            <input type="radio" name="appMode" value="study" checked>
+            성취기준 암기
+        </label>
 
-<h2>진로선택</h2>
+        <label style="margin-left:20px;">
+            <input type="radio" name="appMode" value="element">
+            내용요소 암기
+        </label>
 
-<label><input type="checkbox" value="음악 연주와 창작"> 음악 연주와 창작</label><br>
-<label><input type="checkbox" value="음악 감상과 비평"> 음악 감상과 비평</label><br>
-<label><input type="checkbox" value="음악과 미디어"> 음악과 미디어</label>
-<h2>학습모드</h2>
+    </div>
+
+    <div id="home">
+
+    <div class="homeGrid">
+
+        <!-- 공통 -->
+        <div class="homeCard">
+
+            <h2>공통</h2>
+
+            <div class="checkGrid">
+
+                <label><input type="checkbox" value="중학교|연주"> 중학교 연주</label>
+                <label><input type="checkbox" value="고등학교|연주"> 고등학교 연주</label>
+
+                <label><input type="checkbox" value="중학교|감상"> 중학교 감상</label>
+                <label><input type="checkbox" value="고등학교|감상"> 고등학교 감상</label>
+
+                <label><input type="checkbox" value="중학교|창작"> 중학교 창작</label>
+                <label><input type="checkbox" value="고등학교|창작"> 고등학교 창작</label>
+
+            </div>
+
+        </div>
+
+        <!-- 진로선택 -->
+        <div class="homeCard">
+
+            <h2>진로선택</h2>
+
+            <div class="career">
+
+                <h3>음악 연주와 창작</h3>
+
+                <label><input type="checkbox" value="음악 연주와 창작|표현과 창작"> 표현과 창작</label>
+                <label><input type="checkbox" value="음악 연주와 창작|실천과 소통"> 실천과 소통</label>
+
+                <h3>음악 감상과 비평</h3>
+
+                <label><input type="checkbox" value="음악 감상과 비평|감상과 반응"> 감상과 반응</label>
+                <label><input type="checkbox" value="음악 감상과 비평|비평과 활용"> 비평과 활용</label>
+
+                <h3>음악과 미디어</h3>
+
+                <label><input type="checkbox" value="음악과 미디어|미디어 탐구"> 미디어 탐구</label>
+                <label><input type="checkbox" value="음악과 미디어|실용적 연계"> 실용적 연계</label>
+
+            </div>
+
+        </div>
+
+    </div>
+    <div id="studyOption">
+
+    <div class="homeCard settingCard">
+
+        <h2>학습 설정</h2>
+
+        <div class="settingGrid">
+
+            <div>
+
+                <h3>학습모드</h3>
+
+                <label><input type="radio" name="studyMode" value="exam" checked> 시험모드</label>
+
+                <label><input type="radio" name="studyMode" value="blank"> 빈칸모드</label>
+
+                <div id="blankLevelBox" style="display:none; margin:12px 0 0 25px;">
+
+                    <select id="blankLevel">
+                        <option value="1">Lv.1 (20%)</option>
+                        <option value="2">Lv.2 (35%)</option>
+                        <option value="3" selected>Lv.3 (50%)</option>
+                        <option value="4">Lv.4 (70%)</option>
+                        <option value="5">Lv.5 (90%)</option>
+                    </select>
+
+                </div>
+
+                <label><input type="radio" name="studyMode" value="practice"> 연습모드</label>
+
+            </div>
+
+            <div>
+
+                <h3>출제방식</h3>
+
+                <label><input type="radio" name="mode" value="order" checked> 순서대로</label>
+
+                <label><input type="radio" name="mode" value="random"> 랜덤</label>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    </div> <!-- studyOption 끝 -->
+
+    <div id="elementOption" style="display:none;">
+
+        <div class="homeCard settingCard">
+
+            <h2>내용요소 설정</h2>
+
+            <h3>출제 방식</h3>
+
+            <label>
+                <input type="radio"
+                    name="elementSourceMode"
+                    value="area"
+                    checked>
+                영역 → 내용요소
+            </label>
+
+            <label style="margin-left:20px;">
+                <input type="radio"
+                    name="elementSourceMode"
+                    value="standard">
+                성취기준 → 내용요소
+            </label>
+
+            <hr>
+
+        
+
+            <h3>학습 모드</h3>
+
+            <label>
+                <input type="radio" name="elementStudyMode" value="exam" checked>
+                시험모드
+            </label>
+
+            <label style="margin-left:20px;">
+                <input type="radio" name="elementStudyMode" value="blank">
+                빈칸모드
+            </label>
+
+            <label style="margin-left:20px;">
+                <input type="radio" name="elementStudyMode" value="practice">
+                연습모드
+            </label>
+
+            <p>선택한 영역마다 지식·이해, 과정·기능, 가치·태도를 인출합니다.</p>
+        </div>
+
+    </div>
+
+    <div class="buttonBox">
+
+        <button onclick="startQuiz()">시작하기</button>
+
+        <button class="grayBtn" onclick="resetLevel()">학습 레벨 초기화</button>
+
+    </div>
+
+    </div>
 
 
-<label>
-    <input type="radio" name="studyMode" value="exam" checked>
-    시험모드
-</label><br>
 
-<label>
-    <input type="radio" name="studyMode" value="practice">
-    연습모드
-</label>
+    <div id="quiz" style="display:none;">
 
-<br><br>
-<h2>출제방식</h2>
+    <h3 id="school"></h3>
+    <h2 id="area"></h2>
+    <h2 id="code"></h2>
 
-<label><input type="radio" name="mode" value="order" checked> 순서대로</label><br>
-<label><input type="radio" name="mode" value="random"> 랜덤</label>
+    <button
+    id="toggleBtn"
+    onclick="toggleQuestion()"
+    style="display:none;">
+    🙈 내용 숨기기
+    </button>
 
-<br><br>
+    <div id="question"></div>
 
-<button onclick="startQuiz()">시작하기</button>
+    <textarea id="answer"></textarea>
 
-</div>
+    <div id="elementAnswerBox" style="display:none;">
 
-<div id="quiz" style="display:none;">
+        <div id="knowledgeBox">
+            <h3>지식·이해</h3>
+            <textarea id="knowledgeAnswer"></textarea>
+        </div>
 
-<h3 id="school"></h3>
-<h2 id="area"></h2>
-<h2 id="code"></h2>
+        <div id="skillBox">
+            <h3>과정·기능</h3>
+            <textarea id="skillAnswer"></textarea>
+        </div>
 
-<button
-id="toggleBtn"
-onclick="toggleQuestion()"
-style="display:none;">
-🙈 내용 숨기기
-</button>
+        <div id="attitudeBox">
+            <h3>가치·태도</h3>
+            <textarea id="attitudeAnswer"></textarea>
+        </div>
 
-<div id="question"></div>
+    
 
-<textarea
-id="answer"
-placeholder="여기에 입력하세요"></textarea>
+    </div>
 
-<div id="progress"></div>
+    <div id="progress"></div>
 
-<div class="buttons">
+    <div class="buttons">
+    <button id="submitBtn" onclick="checkAnswer()">제출</button>
 
-<button onclick="goHome()">🏠 홈</button>
 
-<button onclick="prevQuestion()">◀ 이전</button>
+    <button id="prevBtn" onclick="prevQuestion()">◀ 이전</button>
 
-<button onclick="checkAnswer()">제출</button>
-<button onclick="nextQuestion()">다음 ▶</button>
 
-</div>
 
-<div id="result"></div>
+    <button id="nextBtn" onclick="nextQuestion()">다음 ▶</button>
+    <button onclick="goHome()">🏠 홈</button>
 
-</div>
+    </div>
 
-<script src="script.js"></script>
+    <div id="result"></div>
 
-</body>
-</html>
+    </div>
+
+    </div>
+
+    <script src="script.js"></script>
+    <script src="study.js"></script>
+    <script src="element.js"></script>
+    <script>
+    (() => {
+        const startGate = document.getElementById("startGate");
+        const appContent = document.getElementById("appContent");
+        const startPhraseInput = document.getElementById("startPhraseInput");
+        const startGateButton = document.getElementById("startGateButton");
+        const startGateMessage = document.getElementById("startGateMessage");
+
+        function unlockProgram(){
+            if(startPhraseInput.value.trim() === "서준혁 임용합격"){
+                startGate.style.display = "none";
+                appContent.style.display = "block";
+            }else{
+                startGateMessage.textContent = "문구가 일치하지 않습니다.";
+                startPhraseInput.focus();
+                startPhraseInput.select();
+            }
+        }
+
+        startGateButton.addEventListener("click", unlockProgram);
+
+        startPhraseInput.addEventListener("keydown", event => {
+            if(event.key === "Enter") unlockProgram();
+        });
+
+        startPhraseInput.focus();
+    })();
+    </script>
+
+    </body>
+    </html>
 

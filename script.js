@@ -1,5 +1,4 @@
-const progress =
-document.getElementById("progress");
+const progress = document.getElementById("progress");
 
 let allQuestions = [];
 let questions = [];
@@ -9,17 +8,47 @@ let current = null;
 
 const home = document.getElementById("home");
 const quiz = document.getElementById("quiz");
+const appModeOption = document.getElementById("appModeOption");
 
 const school = document.getElementById("school");
 const area = document.getElementById("area");
 const code = document.getElementById("code");
 const question = document.getElementById("question");
 const answer = document.getElementById("answer");
+const elementAnswerBox =
+document.getElementById("elementAnswerBox");
+
+const knowledgeBox =
+document.getElementById("knowledgeBox");
+
+const skillBox =
+document.getElementById("skillBox");
+
+const attitudeBox =
+document.getElementById("attitudeBox");
+
+const knowledgeAnswer =
+document.getElementById("knowledgeAnswer");
+
+const skillAnswer =
+document.getElementById("skillAnswer");
+
+const attitudeAnswer =
+document.getElementById("attitudeAnswer");
+
+
+const submitBtn =
+document.getElementById("submitBtn");
+
+const prevBtn =
+document.getElementById("prevBtn");
+
+const nextBtn =
+document.getElementById("nextBtn");
 const result = document.getElementById("result");
 const toggleBtn = document.getElementById("toggleBtn");
 
-let studyMode = "exam";
-let questionVisible = true;
+let appMode="study";
 
 async function loadData(){
 
@@ -32,231 +61,44 @@ loadData();
 
 function startQuiz(){
 
-    questions=[];
-
-    const checked =
-    document.querySelectorAll(
-        "#home input[type=checkbox]:checked"
-    );
-
-    checked.forEach(box=>{
-
-        const value=box.value;
-
-        if(value.includes("|")){
-
-            const split=value.split("|");
-
-            const s=split[0];
-            const a=split[1];
-
-            questions.push(
-                ...allQuestions.filter(q=>
-
-                    q.school===s &&
-                    q.area===a
-
-                )
-            );
-
-        }
-
-        else{
-
-            questions.push(
-                ...allQuestions.filter(q=>
-
-                    q.course===value
-
-                )
-            );
-
-        }
-
-    });
-
-    if(questions.length===0){
-
-        alert("영역을 선택하세요.");
-
-        return;
-
-    }
-
-    const random =
+    appMode =
     document.querySelector(
-        "input[name=mode]:checked"
-    ).value==="random";
-    studyMode = document.querySelector(
-    'input[name="studyMode"]:checked'
-).value;
+        'input[name="appMode"]:checked'
+    ).value;
+setQuizMode();
+    appModeOption.style.display = "none";
 
+    if(appMode==="study"){
 
-    if(random){
-
-        questions.sort(()=>Math.random()-0.5);
-
-    }
-
-    currentIndex=0;
-
-    home.style.display="none";
-    quiz.style.display="block";
-
-    showQuestion();
-
-}
-
-function showQuestion(){
-
-    current=questions[currentIndex];
-
-    school.textContent=current.school;
-    area.textContent=current.area;
-    code.textContent=current.code;
-  question.textContent = current.text;
-
-if(studyMode==="exam"){
-
-    question.style.display="none";
-    toggleBtn.style.display="none";
-
-}
-else{
-if(studyMode==="exam"){
-    question.style.display="block";
-}
-    toggleBtn.style.display="inline-block";
-
-    questionVisible=true;
-    toggleBtn.textContent="🙈 내용 숨기기";
-
-}
-
-    progress.textContent = `${currentIndex + 1} / ${questions.length}`;
-
-    answer.value="";
-    result.textContent="";
-
-}
-
-function nextQuestion(){
-
-    if(currentIndex<questions.length-1){
-
-        currentIndex++;
-
-        showQuestion();
-
-    }
-
-    else{
-
-        alert("🎉 모든 문제를 완료했습니다.");
-
-    }
-
-}
-
-function prevQuestion(){
-
-    if(currentIndex>0){
-
-        currentIndex--;
-
-        showQuestion();
-
-    }
-
-}
-
-function goHome(){
-
-    home.style.display="block";
-
-    quiz.style.display="none";
-
-}
-
-function checkAnswer(){
-
-    question.style.display = "block";
-
-    if(answer.value.trim() == current.text.trim()){
-
-        result.style.color = "green";
-        result.innerHTML = "⭕ 정답";
-
-    }
-   else{
-
-    let user = answer.value.trim();
-    let correct = current.text.trim();
-
-    let html = "<b>❌ 오답</b><br><br>";
-
-    let i = 0;
-    let j = 0;
-
-    while(i < correct.length){
-
-        if(j < user.length && correct[i] === user[j]){
-
-            html += correct[i];
-            i++;
-            j++;
-
-        }else{
-
-            html += `<span style="background:#ffb3b3;color:red;font-weight:bold;">${correct[i]}</span>`;
-            i++;
-
-        }
-
-    }
-
-    result.style.color = "black";
-    result.innerHTML = html;
-
-}
-
-}
-
-function toggleQuestion(){
-
-    questionVisible=!questionVisible;
-
-    if(questionVisible){
-
-        question.style.display="block";
-        toggleBtn.textContent="🙈 내용 숨기기";
+        startStudyQuiz();
 
     }else{
 
-        question.style.display="none";
-        toggleBtn.textContent="👁 내용 보기";
+        startElementQuiz();
 
     }
 
 }
-let isChecked = false;
+function setQuizMode() {
 
-answer.addEventListener("keydown", function(event){
+    if (appMode === "study") {
 
-    if(event.key !== "Enter") return;
+        answer.style.display = "block";
+        elementAnswerBox.style.display = "none";
 
-    event.preventDefault();
+        submitBtn.onclick = checkAnswer;
+        prevBtn.onclick = prevQuestion;
+        nextBtn.onclick = nextQuestion;
 
-    if(!isChecked){
+    } else {
 
-        checkAnswer();
-        isChecked = true;
+        answer.style.display = "none";
+        elementAnswerBox.style.display = "block";
 
-    }else{
-
-        nextQuestion();
-        isChecked = false;
+        submitBtn.onclick = checkElementAnswer;
+        prevBtn.onclick = prevElementQuestion;
+        nextBtn.onclick = nextElementQuestion;
 
     }
 
-});
+}
