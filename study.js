@@ -190,34 +190,39 @@ if(user === correct){
         result.innerHTML =
             `⭕ 정답<br>Lv.${info.level} (연속 ${info.streak}회)`;
 
-    }else{
+ }else{
 
-        updateLevel(false);
+    updateLevel(false);
 
-     let userText = answer.value.trim();
-let correctText = current.text.trim();
+    let userText = answer.value.trim();
+    let correctText = current.text.trim();
 
-   while(i < correctText.length){
+    let html = "<b>❌ 오답</b><br><br>";
 
-    if(j < userText.length && correctText[i] === userText[j]){
+    let i = 0;
+    let j = 0;
 
-        html += correctText[i];
-        i++;
-        j++;
+    while(i < correctText.length){
 
-    }else{
+        if(j < userText.length && correctText[i] === userText[j]){
 
-        html += `<span style="background:#ffb3b3;color:red;font-weight:bold;">${correctText[i]}</span>`;
-        i++;
+            html += correctText[i];
+            i++;
+            j++;
+
+        }else{
+
+            html += `<span style="background:#ffb3b3;color:red;font-weight:bold;">${correctText[i]}</span>`;
+            i++;
+
+        }
 
     }
+
+    result.style.color = "black";
+    result.innerHTML = html;
 
 }
-
-        result.style.color = "black";
-        result.innerHTML = html;
-
-    }
 
 }
 
