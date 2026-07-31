@@ -165,12 +165,22 @@ function goHome(){
     quiz.style.display="none";
 
 }
+function normalize(text){
 
+    return text
+        .replace(/\s+/g, "")   // 모든 공백 제거
+        .replace(/·/g, "")     // · 제거
+        .trim();
+
+}
 function checkAnswer(){
 
     question.style.display = "block";
 
-    if(answer.value.trim() == current.text.trim()){
+const user = normalize(answer.value);
+const correct = normalize(current.text);
+
+if(user === correct){
 
         updateLevel(true);
 
@@ -184,30 +194,25 @@ function checkAnswer(){
 
         updateLevel(false);
 
-        let user = answer.value.trim();
-        let correct = current.text.trim();
+     let userText = answer.value.trim();
+let correctText = current.text.trim();
 
-        let html = "<b>❌ 오답</b><br><br>";
+   while(i < correctText.length){
 
-        let i = 0;
-        let j = 0;
+    if(j < userText.length && correctText[i] === userText[j]){
 
-        while(i < correct.length){
+        html += correctText[i];
+        i++;
+        j++;
 
-            if(j < user.length && correct[i] === user[j]){
+    }else{
 
-                html += correct[i];
-                i++;
-                j++;
+        html += `<span style="background:#ffb3b3;color:red;font-weight:bold;">${correctText[i]}</span>`;
+        i++;
 
-            }else{
+    }
 
-                html += `<span style="background:#ffb3b3;color:red;font-weight:bold;">${correct[i]}</span>`;
-                i++;
-
-            }
-
-        }
+}
 
         result.style.color = "black";
         result.innerHTML = html;
