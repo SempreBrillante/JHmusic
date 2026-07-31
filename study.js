@@ -169,7 +169,7 @@ function normalize(text){
 
     return text
         .replace(/\s+/g, "")   // 모든 공백 제거
-        .replace(/·/g, "")     // · 제거
+        .replace(/[·⋅ㆍ]/g, "")
         .trim();
 
 }
@@ -179,6 +179,7 @@ function checkAnswer(){
 
 const user = normalize(answer.value);
 const correct = normalize(current.text);
+
 
 if(user === correct){
 
