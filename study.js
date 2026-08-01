@@ -179,7 +179,8 @@ function checkAnswer(){
 
 const user = normalize(answer.value);
 const correct = normalize(current.text);
-
+console.log(user);
+console.log(correct);
 
 if(user === correct){
 
@@ -372,21 +373,25 @@ function updateLevel(correct){
 
     const info = getLevel(current.id);
 
+    if(info.wrong === undefined){
+        info.wrong = 0;
+    }
+
     if(correct){
 
-        info.streak++;
-
-        if(info.streak >= 2){
-
-            info.level = Math.min(info.level + 1, 5);
-            info.streak = 0;
-
-        }
+        info.level = Math.min(info.level + 1, 5);
+        info.wrong = 0;
 
     }else{
 
-        info.level = Math.max(info.level - 1, 1);
-        info.streak = 0;
+        info.wrong++;
+
+        if(info.wrong >= 2){
+
+            info.level = Math.max(info.level - 1, 1);
+            info.wrong = 0;
+
+        }
 
     }
 
