@@ -227,10 +227,10 @@ function makeElementBlank(text){
 
     const ratio = {
         1:0.2,
-        2:0.35,
-        3:0.5,
-        4:0.7,
-        5:0.9
+        2:0.5,
+        3:0.7,
+        4:0.9,
+        5:1
     };
 
     const blankCount = Math.max(
