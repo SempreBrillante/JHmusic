@@ -211,7 +211,7 @@ function showElementQuestion(){
         `${currentIndex + 1} / ${questions.length}`;
 
         answered = false;
-checkBtn.textContent = "제출";
+submitBtn.textContent = "제출";
 
 }
 function makeElementBlank(text){
@@ -445,7 +445,7 @@ function submitOrNext(){
         checkElementAnswer();
 
         answered = true;
-        checkBtn.textContent = "다음 ▶";
+        submitBtn.textContent = "다음 ▶";
 
     }else{
 
