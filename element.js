@@ -384,14 +384,14 @@ const isWrong = html.includes("누락");
 if(isWrong && !wrongQuestions.includes(current)){
     wrongQuestions.push(current);
 }
-const isWrong = html.includes("누락");
+
 
 if(elementStudyMode === "blank"){
 
     updateLevel(!isWrong);
 
 }
-result.innerHTML = html;
+
 }
 function nextElementQuestion(){
 
