@@ -69,8 +69,7 @@ function startStudyQuiz(){
     ).value==="random";
     studyMode = document.querySelector('input[name="studyMode"]:checked').value;
 
-document.getElementById("blankLevelBox").style.display =
-    studyMode === "blank" ? "block" : "none";
+
 
 
 
@@ -184,17 +183,26 @@ console.log(correct);
 
 if(user === correct){
 
-        updateLevel(true);
+       if(studyMode === "blank"){
+    updateLevel(true);
+}
 
-        const info = getLevel(current.id);
+const info = getLevel(current.id);
 
-        result.style.color = "green";
-        result.innerHTML =
-            `⭕ 정답<br>Lv.${info.level} (연속 ${info.streak}회)`;
+result.style.color = "green";
+
+if(studyMode === "blank"){
+    result.innerHTML =
+        `⭕ 정답<br>Lv.${info.level}`;
+}else{
+    result.innerHTML = "⭕ 정답";
+}
 
  }else{
 
+   if(studyMode === "blank"){
     updateLevel(false);
+}
 
     let userText = answer.value.trim();
     let correctText = current.text.trim();
@@ -272,7 +280,7 @@ function makeBlank(text){
         "으로","에서","에게","처럼","까지","부터",
         "으로서","으로써",
         "은","는","이","가","을","를",
-        "와","과","의","에","도","만","나","이나","[·⋅ㆍ]",",", "."
+        "와","과","의","에","도","만","나","이나","·","⋅","ㆍ",",","."
     ];
 
     let words = text.split(" ");
@@ -414,19 +422,12 @@ function resetLevel(){
 document.querySelectorAll('input[name="studyMode"]').forEach(radio => {
     radio.addEventListener("change", () => {
 
-        document.getElementById("blankLevelBox").style.display =
-            radio.value === "blank" && radio.checked
-                ? "block"
-                : "none";
+    
 
     });
 });
 
 // 첫 화면에서도 바로 적용
-document.getElementById("blankLevelBox").style.display =
-    document.querySelector('input[name="studyMode"]:checked').value === "blank"
-        ? "block"
-        : "none";
         
 const studyOption = document.getElementById("studyOption");
 const elementOption = document.getElementById("elementOption");

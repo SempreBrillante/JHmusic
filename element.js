@@ -217,17 +217,34 @@ checkBtn.textContent = "제출";
 function makeElementBlank(text){
 
     const tokens = text.split(/(\s+)/);
+
     const wordIndexes = tokens
         .map((token, index) => ({ token, index }))
         .filter(item => item.token.trim().length >= 2)
         .map(item => item.index);
 
-    const blankCount = Math.max(1, Math.floor(wordIndexes.length * 0.5));
+    const level = getLevel(current.id).level;
+
+    const ratio = {
+        1:0.2,
+        2:0.35,
+        3:0.5,
+        4:0.7,
+        5:0.9
+    };
+
+    const blankCount = Math.max(
+        1,
+        Math.floor(wordIndexes.length * ratio[level])
+    );
+
     const blankIndexes = new Set();
 
     while(blankIndexes.size < Math.min(blankCount, wordIndexes.length)){
+
         const randomIndex = Math.floor(Math.random() * wordIndexes.length);
         blankIndexes.add(wordIndexes[randomIndex]);
+
     }
 
     return tokens.map((token, index) =>
@@ -367,7 +384,13 @@ const isWrong = html.includes("누락");
 if(isWrong && !wrongQuestions.includes(current)){
     wrongQuestions.push(current);
 }
+const isWrong = html.includes("누락");
 
+if(elementStudyMode === "blank"){
+
+    updateLevel(!isWrong);
+
+}
 result.innerHTML = html;
 }
 function nextElementQuestion(){
