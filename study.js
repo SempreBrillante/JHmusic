@@ -333,17 +333,19 @@ let count = Math.max(
 
     let indexes=[];
 
-    while(indexes.length<count){
+const availableIndexes = [];
 
-        let r=Math.floor(Math.random()*words.length);
-
-        if(!indexes.includes(r) && candidates[r].stem.length>=2){
-
-            indexes.push(r);
-
-        }
-
+for (let i = 0; i < candidates.length; i++) {
+    if (candidates[i].stem.length >= 2) {
+        availableIndexes.push(i);
     }
+}
+
+count = Math.min(count, availableIndexes.length);
+
+availableIndexes.sort(() => Math.random() - 0.5);
+
+const indexes = availableIndexes.slice(0, count);
 
     for(let i of indexes){
 
