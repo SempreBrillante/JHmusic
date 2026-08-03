@@ -331,9 +331,7 @@ let count = Math.max(
     Math.floor(words.length * ratio[level])
 );
 
-    let indexes=[];
-
-const availableIndexes = [];
+ const availableIndexes = [];
 
 for (let i = 0; i < candidates.length; i++) {
     if (candidates[i].stem.length >= 2) {
@@ -345,7 +343,7 @@ count = Math.min(count, availableIndexes.length);
 
 availableIndexes.sort(() => Math.random() - 0.5);
 
-const indexes = availableIndexes.slice(0, count);
+let indexes = availableIndexes.slice(0, count);
 
     for(let i of indexes){
 
