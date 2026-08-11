@@ -5,7 +5,9 @@ let levelData =
 JSON.parse(localStorage.getItem("levelData")) || {};
 
 let questionVisible = true;
-
+let wrongQuestions = [];
+let originalQuestions = [];
+let isRetryRound = false;
 
 function startStudyQuiz(){
 
@@ -62,7 +64,9 @@ function startStudyQuiz(){
         return;
 
     }
-
+originalQuestions = [...questions];
+wrongQuestions = [];
+isRetryRound = false;
     const random =
     document.querySelector(
         "input[name=mode]:checked"
@@ -130,17 +134,46 @@ if(studyMode==="exam"){
 
 function nextQuestion(){
 
-   if(currentIndex<questions.length-1){
+    if(currentIndex < questions.length - 1){
 
-    currentIndex++;
+        currentIndex++;
+        showQuestion();
+        return;
 
-}else{
+    }
 
-    currentIndex = 0;   // 처음으로 돌아감
+    // 현재 라운드가 끝났고 오답이 있으면
+    // 오답 문제만 다시 출제
+    if(wrongQuestions.length > 0){
 
-}
+        alert(`오답 ${wrongQuestions.length}문제를 다시 풉니다.`);
 
-showQuestion();
+        questions = [...wrongQuestions];
+        wrongQuestions = [];
+
+        isRetryRound = true;
+        currentIndex = 0;
+
+        showQuestion();
+        return;
+    }
+
+    // 오답 재풀이까지 전부 맞혔으면
+    // 원래 전체 문제의 1번으로 돌아감
+    if(isRetryRound){
+
+        questions = [...originalQuestions];
+
+        isRetryRound = false;
+        currentIndex = 0;
+
+        showQuestion();
+        return;
+    }
+
+    // 처음부터 전체 문제를 다시 시작
+    currentIndex = 0;
+    showQuestion();
 
 }
 
@@ -198,11 +231,15 @@ if(studyMode === "blank"){
     result.innerHTML = "⭕ 정답";
 }
 
- }else{
+}else{
 
-   if(studyMode === "blank"){
-    updateLevel(false);
-}
+    if(studyMode === "blank"){
+        updateLevel(false);
+    }
+
+    if(!wrongQuestions.includes(current)){
+        wrongQuestions.push(current);
+    }
 
     let userText = answer.value.trim();
     let correctText = current.text.trim();
