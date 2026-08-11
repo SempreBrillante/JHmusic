@@ -134,6 +134,7 @@ if(studyMode==="exam"){
 
 function nextQuestion(){
 
+    // 현재 문제 목록에 다음 문제가 있으면 다음 문제
     if(currentIndex < questions.length - 1){
 
         currentIndex++;
@@ -142,24 +143,26 @@ function nextQuestion(){
 
     }
 
-    // 현재 라운드가 끝났고 오답이 있으면
-    // 오답 문제만 다시 출제
+    // 현재 라운드 종료 → 오답이 있으면 오답만 다시 풀이
     if(wrongQuestions.length > 0){
 
         alert(`오답 ${wrongQuestions.length}문제를 다시 풉니다.`);
 
-        questions = [...wrongQuestions];
-        wrongQuestions = [];
+        questions = originalQuestions.filter(q =>
+            wrongQuestions.includes(q.id)
+        );
 
+        wrongQuestions = [];
         isRetryRound = true;
         currentIndex = 0;
 
         showQuestion();
         return;
+
     }
 
-    // 오답 재풀이까지 전부 맞혔으면
-    // 원래 전체 문제의 1번으로 돌아감
+    // 오답 재풀이까지 전부 맞힘
+    // → 원래 전체 문제의 1번으로
     if(isRetryRound){
 
         questions = [...originalQuestions];
@@ -169,9 +172,10 @@ function nextQuestion(){
 
         showQuestion();
         return;
+
     }
 
-    // 처음부터 전체 문제를 다시 시작
+    // 첫 번째 전체 라운드에서 오답이 하나도 없었던 경우
     currentIndex = 0;
     showQuestion();
 
@@ -237,9 +241,9 @@ if(studyMode === "blank"){
         updateLevel(false);
     }
 
-    if(!wrongQuestions.includes(current)){
-        wrongQuestions.push(current);
-    }
+   if(!wrongQuestions.includes(current.id)){
+    wrongQuestions.push(current.id);
+}
 
     let userText = answer.value.trim();
     let correctText = current.text.trim();
