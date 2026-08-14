@@ -133,14 +133,14 @@ if(studyMode==="exam"){
 }
 
 function nextQuestion(){
-console.log(
-    "다음 실행",
-    "현재:", currentIndex,
-    "전체:", questions.length,
-    "오답:", wrongQuestions,
-    "재풀이:", isRetryRound
-);
-    // 현재 문제 목록에 다음 문제가 있으면 다음 문제
+
+    console.log("🔥 nextQuestion 실행");
+    console.log("현재:", currentIndex);
+    console.log("전체 문제:", questions.length);
+    console.log("오답 목록:", wrongQuestions);
+    console.log("재풀이:", isRetryRound);
+
+    // 다음 문제가 있으면 다음 문제
     if(currentIndex < questions.length - 1){
 
         currentIndex++;
@@ -149,7 +149,7 @@ console.log(
 
     }
 
-    // 현재 라운드 종료 → 오답이 있으면 오답만 다시 풀이
+    // 마지막 문제 → 오답 재풀이
     if(wrongQuestions.length > 0){
 
         alert(`오답 ${wrongQuestions.length}문제를 다시 풉니다.`);
@@ -157,6 +157,10 @@ console.log(
         questions = originalQuestions.filter(q =>
             wrongQuestions.includes(q.id)
         );
+
+        console.log("🔥 오답 재풀이 시작");
+        console.log("재풀이 문제 수:", questions.length);
+        console.log("재풀이 문제:", questions);
 
         wrongQuestions = [];
         isRetryRound = true;
@@ -167,8 +171,7 @@ console.log(
 
     }
 
-    // 오답 재풀이까지 전부 맞힘
-    // → 원래 전체 문제의 1번으로
+    // 오답 재풀이를 모두 끝냄
     if(isRetryRound){
 
         questions = [...originalQuestions];
@@ -181,7 +184,7 @@ console.log(
 
     }
 
-    // 첫 번째 전체 라운드에서 오답이 하나도 없었던 경우
+    // 처음부터 전부 맞은 경우
     currentIndex = 0;
     showQuestion();
 
