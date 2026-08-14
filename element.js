@@ -1,4 +1,4 @@
-let wrongQuestions = [];
+let elementWrongQuestions = [];
 let answered = false;
 let elementStudyMode = "exam";
 let elementSourceMode = "area";
