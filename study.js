@@ -133,7 +133,13 @@ if(studyMode==="exam"){
 }
 
 function nextQuestion(){
-
+console.log(
+    "다음 실행",
+    "현재:", currentIndex,
+    "전체:", questions.length,
+    "오답:", wrongQuestions,
+    "재풀이:", isRetryRound
+);
     // 현재 문제 목록에 다음 문제가 있으면 다음 문제
     if(currentIndex < questions.length - 1){
 
@@ -244,7 +250,7 @@ if(studyMode === "blank"){
    if(!wrongQuestions.includes(current.id)){
     wrongQuestions.push(current.id);
 }
-
+console.log("오답 저장:", wrongQuestions);
     let userText = answer.value.trim();
     let correctText = current.text.trim();
 
