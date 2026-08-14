@@ -5,7 +5,9 @@ let levelData =
 JSON.parse(localStorage.getItem("levelData")) || {};
 
 let questionVisible = true;
-
+let wrongQuestions = [];
+let originalQuestions = [];
+let isRetryRound = false;
 
 function startStudyQuiz(){
 
@@ -62,7 +64,9 @@ function startStudyQuiz(){
         return;
 
     }
-
+originalQuestions = [...questions];
+wrongQuestions = [];
+isRetryRound = false;
     const random =
     document.querySelector(
         "input[name=mode]:checked"
@@ -130,17 +134,59 @@ if(studyMode==="exam"){
 
 function nextQuestion(){
 
-   if(currentIndex<questions.length-1){
+    console.log("🔥 nextQuestion 실행");
+    console.log("현재:", currentIndex);
+    console.log("전체 문제:", questions.length);
+    console.log("오답 목록:", wrongQuestions);
+    console.log("재풀이:", isRetryRound);
 
-    currentIndex++;
+    // 다음 문제가 있으면 다음 문제
+    if(currentIndex < questions.length - 1){
 
-}else{
+        currentIndex++;
+        showQuestion();
+        return;
 
-    currentIndex = 0;   // 처음으로 돌아감
+    }
 
-}
+    // 마지막 문제 → 오답 재풀이
+    if(wrongQuestions.length > 0){
 
-showQuestion();
+        alert(`오답 ${wrongQuestions.length}문제를 다시 풉니다.`);
+
+        questions = originalQuestions.filter(q =>
+            wrongQuestions.includes(q.id)
+        );
+
+        console.log("🔥 오답 재풀이 시작");
+        console.log("재풀이 문제 수:", questions.length);
+        console.log("재풀이 문제:", questions);
+
+        wrongQuestions = [];
+        isRetryRound = true;
+        currentIndex = 0;
+
+        showQuestion();
+        return;
+
+    }
+
+    // 오답 재풀이를 모두 끝냄
+    if(isRetryRound){
+
+        questions = [...originalQuestions];
+
+        isRetryRound = false;
+        currentIndex = 0;
+
+        showQuestion();
+        return;
+
+    }
+
+    // 처음부터 전부 맞은 경우
+    currentIndex = 0;
+    showQuestion();
 
 }
 
@@ -198,12 +244,16 @@ if(studyMode === "blank"){
     result.innerHTML = "⭕ 정답";
 }
 
- }else{
+}else{
 
-   if(studyMode === "blank"){
-    updateLevel(false);
+    if(studyMode === "blank"){
+        updateLevel(false);
+    }
+
+   if(!wrongQuestions.includes(current.id)){
+    wrongQuestions.push(current.id);
 }
-
+console.log("오답 저장:", wrongQuestions);
     let userText = answer.value.trim();
     let correctText = current.text.trim();
 
