@@ -150,6 +150,68 @@ button:active{
     font-weight:600;
 }
 
+.wrongChar{
+    color:#d63939;
+    font-weight:700;
+}
+
+/* 학습·채점 화면은 결과까지 한 화면에 보이도록 여백과 입력 영역을 압축한다. */
+#quiz #school{
+    margin:0 0 2px;
+    font-size:16px;
+}
+
+#quiz #area{
+    margin:3px 0;
+    font-size:26px;
+}
+
+#quiz #code{
+    margin-bottom:10px;
+    padding:6px 11px;
+}
+
+#quiz #question{
+    min-height:105px;
+    margin-top:12px;
+    padding:16px 18px;
+    font-size:22px;
+    line-height:1.6;
+}
+
+#quiz textarea{
+    min-height:105px;
+    margin-top:12px;
+    padding:13px 15px;
+    font-size:18px;
+    line-height:1.5;
+}
+
+#quiz #progress{
+    margin:14px 0 8px;
+    font-size:18px;
+}
+
+#quiz .buttons{
+    margin-top:12px;
+    gap:8px;
+}
+
+#quiz .buttons button,
+#quiz #toggleBtn{
+    padding:11px 14px;
+    font-size:16px;
+}
+
+#quiz #result{
+    max-height:130px;
+    margin-top:14px;
+    padding:13px 16px;
+    overflow-y:auto;
+    font-size:18px;
+    line-height:1.55;
+}
+
 select{
     padding:10px;
     border-radius:10px;

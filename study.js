@@ -213,9 +213,71 @@ function goHome(){
 function normalize(text){
 
     return text
-        .replace(/\s+/g, "")   // 모든 공백 제거
-        .replace(/[·⋅ㆍ]/g, "")
+        // 띄어쓰기와 일반적인 문장부호 차이는 정답으로 인정한다.
+        .replace(/[\s·⋅ㆍ,，.。!?！？:;；“”"'‘’()\[\]{}]/g, "")
         .trim();
+
+}
+
+function escapeHtml(text){
+
+    return text
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+}
+
+function makeDifferenceMarkup(userText, correctText){
+
+    const ignored = /[\s·⋅ㆍ,，.。!?！？:;；“”"'‘’()\[\]{}]/;
+    const userChars = [...userText].filter(char => !ignored.test(char));
+    const correctChars = [...correctText].filter(char => !ignored.test(char));
+
+    // 최장 공통 부분 수열로 비교해, 중간 한 글자 오류 뒤의 정상 글자는 그대로 둔다.
+    const table = Array.from(
+        { length: correctChars.length + 1 },
+        () => Array(userChars.length + 1).fill(0)
+    );
+
+    for(let i = 1; i <= correctChars.length; i++){
+        for(let j = 1; j <= userChars.length; j++){
+            table[i][j] = correctChars[i - 1] === userChars[j - 1]
+                ? table[i - 1][j - 1] + 1
+                : Math.max(table[i - 1][j], table[i][j - 1]);
+        }
+    }
+
+    const matched = new Set();
+    let i = correctChars.length;
+    let j = userChars.length;
+
+    while(i > 0 && j > 0){
+        if(correctChars[i - 1] === userChars[j - 1]){
+            matched.add(i - 1);
+            i--;
+            j--;
+        }else if(table[i - 1][j] >= table[i][j - 1]){
+            i--;
+        }else{
+            j--;
+        }
+    }
+
+    let characterIndex = 0;
+
+    return [...correctText].map(char => {
+        if(ignored.test(char)) return escapeHtml(char);
+
+        const isMatched = matched.has(characterIndex++);
+        const safeChar = escapeHtml(char);
+
+        return isMatched
+            ? safeChar
+            : `<span class="wrongChar">${safeChar}</span>`;
+    }).join("");
 
 }
 function checkAnswer(){
@@ -254,30 +316,9 @@ if(studyMode === "blank"){
     wrongQuestions.push(current.id);
 }
 console.log("오답 저장:", wrongQuestions);
-    let userText = answer.value.trim();
-    let correctText = current.text.trim();
-
-    let html = "<b>❌ 오답</b><br><br>";
-
-    let i = 0;
-    let j = 0;
-
-    while(i < correctText.length){
-
-        if(j < userText.length && correctText[i] === userText[j]){
-
-            html += correctText[i];
-            i++;
-            j++;
-
-        }else{
-
-            html += `<span style="background:#ffb3b3;color:red;font-weight:bold;">${correctText[i]}</span>`;
-            i++;
-
-        }
-
-    }
+    const userText = answer.value.trim();
+    const correctText = current.text.trim();
+    const html = `<b>❌ 오답</b><br><br>${makeDifferenceMarkup(userText, correctText)}`;
 
     result.style.color = "black";
     result.innerHTML = html;
