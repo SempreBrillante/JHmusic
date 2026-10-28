@@ -15,7 +15,7 @@ document.querySelectorAll('input[name="appMode"]').forEach(r => r.addEventListen
 function startRecallQuiz(){
     if(appMode === 'music'){
         const selected=[...document.querySelectorAll('#musicSelection input:checked')].map(x=>x.value);
-        questions=musicRecallData.filter(q=>selected.includes(q.id));
+        questions=musicRecallData.filter(q=>selected.includes(q.school));
     }else if(appMode === 'core'){
         const selected = [...document.querySelectorAll('#home .homeGrid input:checked')].map(x=>x.value);
         questions = coreRecallData
@@ -38,7 +38,7 @@ function startRecallQuiz(){
         const selected = [...document.querySelectorAll('#methodSelection input:checked')].map(x=>x.value);
         questions = methodRecallData.filter(q=>selected.includes(q.id));
     }
-    if(!questions.length){ alert(appMode === 'music' ? '학교급과 음악요소를 선택하세요.' : appMode === 'core' ? '영역을 선택하세요.' : '교수학습방법 또는 평가방법을 선택하세요.'); return; }
+    if(!questions.length){ alert(appMode === 'music' ? '학교급을 선택하세요.' : appMode === 'core' ? '영역을 선택하세요.' : '교수학습방법 또는 평가방법을 선택하세요.'); return; }
     studyMode = document.querySelector('input[name="studyMode"]:checked').value;
     if(document.querySelector('input[name="mode"]:checked').value === 'random') questions.sort(()=>Math.random()-.5);
     recallOriginal = [...questions]; recallWrong = new Set(); currentIndex = 0;
@@ -59,7 +59,11 @@ function showRecallQuestion(){
     question.style.display = studyMode === 'exam' ? 'none' : 'block';
     toggleBtn.style.display = studyMode === 'exam' ? 'none' : 'inline-block';
     questionVisible = true; toggleBtn.textContent = '🙈 내용 숨기기';
-    answer.placeholder = appMode === 'core' ? '해당 핵심 아이디어 한 문장만 입력하세요. Enter: 채점·다음' : '쉼표 또는 줄바꿈으로 구분해 모두 입력하세요. Enter: 줄바꿈 / Ctrl+Enter: 채점';
+    answer.placeholder = appMode === 'core'
+        ? '해당 핵심 아이디어 한 문장만 입력하세요. Enter: 채점·다음'
+        : appMode === 'music'
+            ? '쉼표로 구분해 모두 입력하세요. Enter: 채점·다음'
+            : '쉼표 또는 줄바꿈으로 구분해 모두 입력하세요. Enter: 줄바꿈 / Ctrl+Enter: 채점';
     answer.value = ''; result.innerHTML = ''; result.style.color = 'black';
     progress.textContent = `${currentIndex+1} / ${questions.length}`;
 }
@@ -123,7 +127,7 @@ function nextRecallQuestion(){
 }
 answer.addEventListener('keydown',event=>{
     if(!isRecallMode() || event.key!=='Enter' || event.isComposing || event.keyCode===229) return;
-    const shortcut = (appMode==='core' && !event.shiftKey) || event.ctrlKey || event.metaKey;
+    const shortcut = (['core','music'].includes(appMode) && !event.shiftKey) || event.ctrlKey || event.metaKey;
     if(!shortcut) return;
     event.preventDefault();
     if(event.repeat) return;
