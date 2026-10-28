@@ -48,7 +48,7 @@ function showRecallQuestion(){
     school.textContent = current.course || current.school;
     area.textContent = current.area;
     code.textContent = appMode === 'core'
-        ? `${current.coreLabel} — 해당 핵심 아이디어를 한 문장으로 쓰시오.`
+        ? `${current.coreLabel}`
         : `${current.area} ${current.items.length}개를 모두 쓰시오. (순서 자유)`;
     question.textContent = current.items.map((s,i)=>`${appMode === 'core' ? '' : (i+1)+'. '}${studyMode === 'blank' ? makeBlank(s) : s}`).join('\n');
     question.style.display = studyMode === 'exam' ? 'none' : 'block';
