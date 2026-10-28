@@ -13,7 +13,22 @@ document.querySelectorAll('input[name="appMode"]').forEach(r => r.addEventListen
 function startRecallQuiz(){
     if(appMode === 'core'){
         const selected = [...document.querySelectorAll('#home .homeGrid input:checked')].map(x=>x.value);
-        questions = coreRecallData.filter(q=>selected.includes(`${q.course || q.school}|${q.area}`));
+        questions = coreRecallData
+            .filter(q=>selected.includes(`${q.course || q.school}|${q.area}`))
+            .flatMap(group=>group.items.map((text,index)=>{
+                const dimension = group.course
+                    ? (['표현과 창작','감상과 반응','미디어 탐구'].includes(group.area)
+                        ? '자체·경험·이해' : '연계·활용·확장')
+                    : ['원리','맥락','활용'][index];
+                return {
+                    ...group,
+                    id: `${group.id}-sentence-${index+1}`,
+                    items: [text],
+                    coreLabel: group.course
+                        ? `${dimension} · 핵심 아이디어 ${index+1}`
+                        : dimension
+                };
+            }));
     }else{
         const selected = [...document.querySelectorAll('#methodSelection input:checked')].map(x=>x.value);
         questions = methodRecallData.filter(q=>selected.includes(q.id));
@@ -32,12 +47,14 @@ function showRecallQuestion(){
     current = questions[currentIndex]; recallChecked = false;
     school.textContent = current.course || current.school;
     area.textContent = current.area;
-    code.textContent = `${appMode === 'core' ? '핵심 아이디어' : current.area} ${current.items.length}개를 모두 쓰시오. (순서 자유)`;
-    question.textContent = current.items.map((s,i)=>`${i+1}. ${studyMode === 'blank' ? makeBlank(s) : s}`).join('\n');
+    code.textContent = appMode === 'core'
+        ? `${current.coreLabel} — 해당 핵심 아이디어를 한 문장으로 쓰시오.`
+        : `${current.area} ${current.items.length}개를 모두 쓰시오. (순서 자유)`;
+    question.textContent = current.items.map((s,i)=>`${appMode === 'core' ? '' : (i+1)+'. '}${studyMode === 'blank' ? makeBlank(s) : s}`).join('\n');
     question.style.display = studyMode === 'exam' ? 'none' : 'block';
     toggleBtn.style.display = studyMode === 'exam' ? 'none' : 'inline-block';
     questionVisible = true; toggleBtn.textContent = '🙈 내용 숨기기';
-    answer.placeholder = appMode === 'core' ? '각 문장을 줄바꿈하여 모두 입력하세요. Enter: 줄바꿈 / Ctrl+Enter: 채점' : '쉼표 또는 줄바꿈으로 구분해 모두 입력하세요. Enter: 줄바꿈 / Ctrl+Enter: 채점';
+    answer.placeholder = appMode === 'core' ? '해당 핵심 아이디어 한 문장만 입력하세요. Ctrl+Enter: 채점·다음' : '쉼표 또는 줄바꿈으로 구분해 모두 입력하세요. Enter: 줄바꿈 / Ctrl+Enter: 채점';
     answer.value = ''; result.innerHTML = ''; result.style.color = 'black';
     progress.textContent = `${currentIndex+1} / ${questions.length}`;
 }

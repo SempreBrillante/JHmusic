@@ -53,7 +53,7 @@ function sessionFinish(){
         const record=learningSession.records.get(q);
         const item=document.createElement('li');
         const status=!record?.graded?'미채점':record.correct?'정답':'오답';
-        item.textContent=`${status} · ${[q.course || q.school,q.area,q.categoryLabel || q.code].filter(Boolean).join(' · ')}`;
+        item.textContent=`${status} · ${[q.course || q.school,q.area,q.coreLabel || q.categoryLabel || q.code].filter(Boolean).join(' · ')}`;
         item.className=status==='정답'?'recallCorrect':'recallWrong';
         list.append(item);
     });
