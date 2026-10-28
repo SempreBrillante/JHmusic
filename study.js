@@ -348,20 +348,19 @@ let isChecked = false;
 
 answer.addEventListener("keydown", function(event){
 
-    if(appMode === "core" || appMode === "methods") return;
+    if(appMode !== "study" || event.isComposing || event.keyCode === 229) return;
     if(event.key !== "Enter") return;
 
     event.preventDefault();
 
-    if(!isChecked){
+    if(quiz.style.display === "none") return;
+    if(!learningSession?.records.get(current)?.graded){
 
         checkAnswer();
-        isChecked = true;
 
     }else{
 
         nextQuestion();
-        isChecked = false;
 
     }
 
