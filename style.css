@@ -480,3 +480,12 @@ button{
  .summaryStats{gap:8px;}.summaryStat{padding:12px;}.summaryStat strong{font-size:26px;}
  .summaryActions{flex-direction:column;}
 }
+
+/* 유사 답안의 맞는 부분은 기본색으로 남기고 오류 글자만 강조한다. */
+.preciseComparison{margin:12px 0;border:1px solid #e6e8ed;border-radius:10px;background:#fff;overflow:hidden;}
+.preciseComparison > div{padding:12px 14px;}
+.preciseComparison > div + div{border-top:1px solid #edf0f4;background:#fafbfd;}
+.comparisonLabel{font-size:12px;color:#697386;font-weight:600;}
+.preciseComparison p{margin:5px 0 0;white-space:pre-wrap;overflow-wrap:anywhere;color:#222;}
+.preciseComparison .wrongChar{color:#c62828;background:#fff0f0;text-decoration:underline;text-decoration-color:#e6a4a4;text-underline-offset:3px;font-weight:700;}
+.emptyAnswer{color:#697386;font-size:14px;}

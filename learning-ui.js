@@ -66,8 +66,7 @@ function learningFeedback(){
     if(appMode==='study'||appMode==='core'){
         const correct=appMode==='study'?current.text:current.items[0];
         if(!success){
-            body=`<div class="sentenceComparison"><p class="feedbackLabel">정답과 비교 · 빠지거나 달라진 부분을 빨간색으로 표시</p><p>${makeDifferenceMarkup(answer.value,correct)}</p></div>`;
-            body+=learningDetails('내 답안 비교',`<p>${makeDifferenceMarkup(correct,answer.value)||'입력한 답이 없습니다.'}</p>`);
+            body='<p class="feedbackLabel">빠진 글자는 정답 쪽에, 추가한 글자는 내 답안 쪽에, 바뀐 글자는 양쪽에 빨간색으로 표시합니다.</p>'+preciseComparisonMarkup(answer.value,correct);
         }else body=learningDetails('정답 확인',`<p>${escapeHtml(correct)}</p>`);
     }else if(appMode==='element'){
         let total=0,matched=0;
@@ -75,7 +74,13 @@ function learningFeedback(){
         for(const [title,field,items] of [['지식·이해',knowledgeAnswer,current.knowledge],['과정·기능',skillAnswer,current.skill],['가치·태도',attitudeAnswer,current.attitude]]){
             if(!items.length)continue;
             const grade=checkList(field.value,items);total+=grade.total;matched+=grade.correct;
-            if(grade.wrong.length)missing.push(`<section><h4>${title} · 누락 ${grade.wrong.length}</h4>${learningItems(grade.wrong,'missingItems')}</section>`);
+            if(grade.wrong.length){
+                const candidates=field.value.split(/[\n;；]+/).flatMap(s=>s.includes('(')?[s]:s.split(/[,，]/)).map(s=>s.trim()).filter(s=>s && !items.some(item=>normalizeElementAnswer(item)===normalizeElementAnswer(s)));
+                const paired=pairSimilarAnswers(grade.wrong,candidates);
+                const similar=paired.rows.filter(row=>row.user),absent=paired.rows.filter(row=>!row.user);
+                if(similar.length)missing.push(`<section><h4>${title} · 비슷한 입력 비교</h4>${similar.map(row=>preciseComparisonMarkup(row.user,row.correct)).join('')}</section>`);
+                if(absent.length)missing.push(`<section><h4>${title} · 누락 ${absent.length}</h4>${learningItems(absent.map(row=>row.correct),'missingItems')}</section>`);
+            }
             right.push(...items.filter(s=>!grade.wrong.includes(s)).map(s=>`${title} · ${s}`));
         }
         count=`${matched} / ${total}개`;
@@ -85,12 +90,14 @@ function learningFeedback(){
     }else{
         const grade=gradeRecall(current.items,splitRecallInput(answer.value,false));
         count=`${grade.rows.filter(r=>r.ok).length} / ${grade.rows.length}개`;
-        const missing=grade.rows.filter(r=>!r.ok&&!r.user);
-        const wrong=grade.rows.filter(r=>!r.ok&&r.user);
+        const paired=pairSimilarAnswers(grade.rows.filter(r=>!r.ok).map(r=>r.correct),[...grade.rows.filter(r=>!r.ok&&r.user).map(r=>r.user),...grade.extras.filter(e=>!e.duplicate).map(e=>e.text)]);
+        const missing=paired.rows.filter(r=>!r.user);
+        const wrong=paired.rows.filter(r=>r.user);
         const right=grade.rows.filter(r=>r.ok);
-        if(wrong.length)body+=`<section><h4>잘못 입력한 항목 ${wrong.length}개</h4>${wrong.map(r=>`<div class="itemComparison"><p>입력: ${makeDifferenceMarkup(r.correct,r.user)}</p><p>정답: ${makeDifferenceMarkup(r.user,r.correct)}</p></div>`).join('')}</section>`;
+        if(wrong.length)body+=`<section><h4>잘못 입력한 항목 ${wrong.length}개</h4>${wrong.map(r=>preciseComparisonMarkup(r.user,r.correct)).join('')}</section>`;
         if(missing.length)body+=`<section><h4>누락 ${missing.length}개</h4>${learningItems(missing.map(r=>r.correct),'missingItems')}</section>`;
-        if(grade.extras.length)body+=`<section><h4>중복·추가 입력</h4>${learningItems(grade.extras.map(e=>`${e.duplicate?'중복 · 한 번만 인정':'목록 밖 입력'}: ${e.text}`),'missingItems')}</section>`;
+        const extras=[...grade.extras.filter(e=>e.duplicate),...paired.extras.map(text=>({text,duplicate:false}))];
+        if(extras.length)body+=`<section><h4>중복·추가 입력</h4>${learningItems(extras.map(e=>`${e.duplicate?'중복 · 한 번만 인정':'목록 밖 입력'}: ${e.text}`),'missingItems')}</section>`;
         if(right.length&&!success)body+=learningDetails(`맞힌 항목 ${right.length}개`,learningItems(right.map(r=>r.correct),'correctItems'));
         body+=learningDetails('전체 정답',learningItems(current.guideItems||current.items,''));
     }
