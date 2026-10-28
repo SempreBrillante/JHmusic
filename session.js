@@ -18,7 +18,7 @@ function sessionShow(){
     const record=learningSession.records.get(current);
     sessionFields().forEach((field,i)=>field.value=record?.draft[i] || '');
     sessionSetChecked(Boolean(record?.graded));
-    if(record?.graded){
+    if(record?.graded || record?.feedback){
         result.innerHTML=record.feedback;
         result.style.color=record.color;
         question.innerHTML=record.question;
@@ -32,7 +32,7 @@ function sessionRemember(graded,correct){
     if(!learningSession) return;
     learningSession.records.set(current,{
         draft:sessionFields().map(field=>field.value),graded,correct,
-        feedback:result.innerHTML,color:result.style.color,
+        feedback:result.innerHTML,color:result.style.color,feedbackClass:result.className,
         question:question.innerHTML,questionDisplay:question.style.display
     });
 }
@@ -127,7 +127,7 @@ submitOrNext=function(){
 for(const field of [answer,knowledgeAnswer,skillAnswer,attitudeAnswer]){
     field.addEventListener('input',()=>{
         if(!learningSession || quiz.style.display==='none')return;
-        sessionSetChecked(false);result.innerHTML='';submitBtn.textContent='채점';
+        sessionSetChecked(false);submitBtn.textContent='채점';
         sessionRemember(false,false);
     });
 }

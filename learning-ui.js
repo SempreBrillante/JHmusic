@@ -54,8 +54,8 @@ function learningUpdate(){
     const record=learningSession.records.get(current);
     learningButtons(Boolean(record?.graded));
     result.style.color='';
-    if(record?.graded)result.className=`learningFeedback ${record.correct?'feedbackSuccess':'feedbackError'}`;
-    result.hidden=!record?.graded;
+    if(record?.feedback)result.className=record.feedbackClass || `learningFeedback ${record.correct?'feedbackSuccess':'feedbackError'}`;
+    result.hidden=!record?.feedback;
     for(const field of sessionFields())learningAutoSize(field);
 }
 function learningDetails(title,body){return `<details class="feedbackDetails"><summary>${title}</summary>${body}</details>`;}
@@ -125,7 +125,18 @@ checkRecallAnswer=learningWrapGrade(checkRecallAnswer);
 for(const field of [answer,knowledgeAnswer,skillAnswer,attitudeAnswer]){
     field.addEventListener('input',()=>{
         if(!learningSession||quiz.style.display==='none')return;
-        learningAutoSize(field);result.hidden=true;result.className='';result.style.color='';learningButtons(false);
+        learningAutoSize(field);learningButtons(false);
+        if(result.innerHTML){
+            result.hidden=false;
+            if(!result.querySelector('.feedbackDraftNotice')){
+                const notice=document.createElement('p');
+                notice.className='feedbackLabel feedbackDraftNotice';
+                notice.setAttribute('role','status');
+                notice.textContent='이전 채점 결과입니다. 수정한 답안은 다시 채점해 주세요.';
+                result.prepend(notice);
+            }
+        }else result.hidden=true;
+        sessionRemember(false,false);
     });
 }
 const learningFinish=sessionFinish;
