@@ -43,7 +43,7 @@ function learningUpdate(){
     answerLabel.style.display=answerHint.style.display=appMode==='element'?'none':'block';
     if(appMode==='methods')answerHint.textContent='Enter: 항목 구분 · Ctrl+Enter: 채점 / 다음 문제 · 쉼표도 사용 가능';
     else if(appMode==='music')answerHint.textContent='Enter: 항목 구분 · Ctrl+Enter: 채점 / 다음 문제 · 순서 자유 · 쉼표도 사용 가능';
-    else answerHint.textContent='Enter: 채점 / 다음 문제 · 답안을 고치면 다시 채점';
+    else answerHint.textContent='Enter: 채점 / 다음 문제 · 최초 채점 결과 유지';
     if(appMode==='element'){
         for(const field of [knowledgeAnswer,skillAnswer,attitudeAnswer])field.placeholder='Enter: 항목 구분 · Ctrl+Enter: 채점 / 다음 문제';
     }
@@ -121,6 +121,9 @@ function learningWrapGrade(original){return function(){
     if(!learningSession.records.get(current)?.graded)return;
     question.innerHTML=reference;question.style.display=referenceDisplay;
     learningFeedback();learningButtons(true);
+    const fixedNotice=document.createElement('p');fixedNotice.className='feedbackLabel firstGradeNotice';
+    fixedNotice.textContent='최초 채점 결과입니다. 고쳐 써도 결과는 유지되며, 오답은 마지막에 다시 인출합니다.';
+    result.prepend(fixedNotice);
     referenceToggle.style.display=learningHasReference()?'block':'none';
     sessionRemember(true,learningSession.records.get(current).correct);
     const bounds=result.getBoundingClientRect();
@@ -132,18 +135,13 @@ checkRecallAnswer=learningWrapGrade(checkRecallAnswer);
 for(const field of [answer,knowledgeAnswer,skillAnswer,attitudeAnswer]){
     field.addEventListener('input',()=>{
         if(!learningSession||quiz.style.display==='none')return;
-        learningAutoSize(field);learningButtons(false);
-        if(result.innerHTML){
-            result.hidden=false;
-            if(!result.querySelector('.feedbackDraftNotice')){
-                const notice=document.createElement('p');
-                notice.className='feedbackLabel feedbackDraftNotice';
-                notice.setAttribute('role','status');
-                notice.textContent='이전 채점 결과입니다. 수정한 답안은 다시 채점해 주세요.';
-                result.prepend(notice);
-            }
-        }else result.hidden=true;
-        sessionRemember(false,false);
+        learningAutoSize(field);
+        const record=learningSession.records.get(current);
+        if(record?.graded){
+            learningButtons(true);result.hidden=false;
+            return;
+        }
+        learningButtons(false);result.hidden=true;
     });
 }
 const learningFinish=sessionFinish;

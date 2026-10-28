@@ -127,6 +127,12 @@ submitOrNext=function(){
 for(const field of [answer,knowledgeAnswer,skillAnswer,attitudeAnswer]){
     field.addEventListener('input',()=>{
         if(!learningSession || quiz.style.display==='none')return;
+        const record=learningSession.records.get(current);
+        if(record?.graded){
+            record.draft=sessionFields().map(field=>field.value);
+            sessionSetChecked(true);
+            return;
+        }
         sessionSetChecked(false);submitBtn.textContent='채점';
         sessionRemember(false,false);
     });
