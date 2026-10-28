@@ -54,7 +54,7 @@ function showRecallQuestion(){
     question.style.display = studyMode === 'exam' ? 'none' : 'block';
     toggleBtn.style.display = studyMode === 'exam' ? 'none' : 'inline-block';
     questionVisible = true; toggleBtn.textContent = '🙈 내용 숨기기';
-    answer.placeholder = appMode === 'core' ? '해당 핵심 아이디어 한 문장만 입력하세요. Ctrl+Enter: 채점·다음' : '쉼표 또는 줄바꿈으로 구분해 모두 입력하세요. Enter: 줄바꿈 / Ctrl+Enter: 채점';
+    answer.placeholder = appMode === 'core' ? '해당 핵심 아이디어 한 문장만 입력하세요. Enter: 채점·다음' : '쉼표 또는 줄바꿈으로 구분해 모두 입력하세요. Enter: 줄바꿈 / Ctrl+Enter: 채점';
     answer.value = ''; result.innerHTML = ''; result.style.color = 'black';
     progress.textContent = `${currentIndex+1} / ${questions.length}`;
 }
@@ -116,9 +116,12 @@ function nextRecallQuestion(){
     currentIndex=0; showRecallQuestion();
 }
 answer.addEventListener('keydown',event=>{
-    if(isRecallMode() && event.key==='Enter' && (event.ctrlKey || event.metaKey)){
-        event.preventDefault(); if(recallChecked) nextRecallQuestion(); else checkRecallAnswer();
-    }
+    if(!isRecallMode() || event.key!=='Enter' || event.isComposing || event.keyCode===229) return;
+    const shortcut = (appMode==='core' && !event.shiftKey) || event.ctrlKey || event.metaKey;
+    if(!shortcut) return;
+    event.preventDefault();
+    if(event.repeat) return;
+    if(recallChecked) nextRecallQuestion(); else checkRecallAnswer();
 });
 const recallOriginalGoHome=goHome;
 goHome=function(){ answer.classList.remove('recallInput'); answer.placeholder=''; recallOriginalGoHome(); syncRecallOptions(); };
