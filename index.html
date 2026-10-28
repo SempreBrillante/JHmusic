@@ -23,23 +23,32 @@
 
     <h1>🎵 음악 임용 암기 트레이너</h1>
 
-    <div id="appModeOption" class="homeCard">
-
-        <h2>학습 종류</h2>
-<label><input type="radio" name="appMode" value="music"> 음악요소 암기</label>
-<label><input type="radio" name="appMode" value="core"> 핵심 아이디어 암기</label>
-<label><input type="radio" name="appMode" value="methods"> 방법과 평가</label>
-
-        <label>
-            <input type="radio" name="appMode" value="study" checked>
-            성취기준 암기
-        </label>
-
-        <label style="margin-left:20px;">
-            <input type="radio" name="appMode" value="element">
-            내용요소 암기
-        </label>
-
+    <div id="appModeOption" class="studyBookmarks">
+        <h2 id="studyBookmarksTitle">학습 종류</h2>
+        <div class="bookmarkScroller">
+        <div class="bookmarkList" role="radiogroup" aria-labelledby="studyBookmarksTitle">
+            <label class="bookmarkTab">
+                <input type="radio" name="appMode" value="study" checked>
+                <span class="bookmarkFace"><span class="bookmarkNumber" aria-hidden="true">01</span><span class="bookmarkName">성취기준</span></span>
+            </label>
+            <label class="bookmarkTab">
+                <input type="radio" name="appMode" value="element">
+                <span class="bookmarkFace"><span class="bookmarkNumber" aria-hidden="true">02</span><span class="bookmarkName">내용요소</span></span>
+            </label>
+            <label class="bookmarkTab">
+                <input type="radio" name="appMode" value="core">
+                <span class="bookmarkFace"><span class="bookmarkNumber" aria-hidden="true">03</span><span class="bookmarkName">핵심 아이디어</span></span>
+            </label>
+            <label class="bookmarkTab">
+                <input type="radio" name="appMode" value="music">
+                <span class="bookmarkFace"><span class="bookmarkNumber" aria-hidden="true">04</span><span class="bookmarkName">음악요소</span></span>
+            </label>
+            <label class="bookmarkTab">
+                <input type="radio" name="appMode" value="methods">
+                <span class="bookmarkFace"><span class="bookmarkNumber" aria-hidden="true">05</span><span class="bookmarkName">방법과 평가</span></span>
+            </label>
+        </div>
+        </div>
     </div>
 
     <div id="home">

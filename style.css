@@ -383,3 +383,29 @@ button{
 .recallCorrect { color: #18733c; }
 .recallFeedback { margin: 12px 0; line-height: 1.8; overflow-wrap: anywhere; }
 #answer.recallInput { min-height: 240px; }
+
+/* 학습 종류를 고르는 책갈피. 실제 라디오 입력과 키보드 탐색을 유지한다. */
+.studyBookmarks{margin:0 0 28px;}
+.studyBookmarks h2{font-size:16px;letter-spacing:.04em;color:#697386;margin:0 0 14px;}
+.bookmarkScroller{overflow-x:auto;padding:5px 5px 10px;scrollbar-width:thin;}
+.bookmarkList{display:grid;grid-template-columns:repeat(5,minmax(132px,1fr));gap:12px;min-width:708px;align-items:start;}
+.bookmarkTab{--bookmark-ink:#3b5bdb;--bookmark-paper:#edf2ff;position:relative;display:block;margin:0;font-size:17px;min-width:0;}
+.bookmarkTab:nth-child(2){--bookmark-ink:#16766b;--bookmark-paper:#e9f5f1;}
+.bookmarkTab:nth-child(3){--bookmark-ink:#875baf;--bookmark-paper:#f3edf9;}
+.bookmarkTab:nth-child(4){--bookmark-ink:#b16a24;--bookmark-paper:#fcf2e4;}
+.bookmarkTab:nth-child(5){--bookmark-ink:#ad5368;--bookmark-paper:#f9edf0;}
+.bookmarkTab input[type=radio]{position:absolute;width:1px;height:1px;margin:0;padding:0;opacity:0;transform:none;}
+.bookmarkFace{display:flex;flex-direction:column;gap:12px;box-sizing:border-box;min-height:110px;padding:17px 15px 30px;background:var(--bookmark-paper);color:var(--bookmark-ink);clip-path:polygon(0 0,100% 0,100% 100%,50% calc(100% - 13px),0 100%);border-radius:9px 9px 0 0;box-shadow:inset 0 4px 0 color-mix(in srgb,var(--bookmark-ink) 30%,transparent);transition:background .18s,color .18s,padding .18s;}
+.bookmarkNumber{font-size:12px;font-weight:700;letter-spacing:.12em;opacity:.7;}
+.bookmarkName{font-size:17px;font-weight:700;line-height:1.4;white-space:nowrap;}
+.bookmarkTab input:checked + .bookmarkFace{background:var(--bookmark-ink);color:#fff;padding-bottom:40px;box-shadow:inset 0 4px 0 rgba(0,0,0,.12);}
+.bookmarkTab:hover .bookmarkFace{box-shadow:inset 0 4px 0 var(--bookmark-ink);}
+.bookmarkTab input:focus-visible + .bookmarkFace{outline:3px solid #202e48;outline-offset:-5px;}
+@media(max-width:600px){
+    .container{box-sizing:border-box;padding:22px 18px;}
+    .bookmarkList{grid-template-columns:repeat(5,116px);min-width:628px;gap:12px;}
+    .bookmarkFace{padding-left:12px;padding-right:12px;min-height:100px;}
+    .bookmarkName{font-size:15px;}
+    .studyBookmarks{margin-bottom:20px;}
+}
+@media(prefers-reduced-motion:reduce){.bookmarkFace{transition:none;}}
