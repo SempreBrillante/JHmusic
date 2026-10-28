@@ -41,11 +41,11 @@ function learningUpdate(){
     document.getElementById('appContent').classList.add('isStudying');
     quiz.dataset.mode=appMode;
     answerLabel.style.display=answerHint.style.display=appMode==='element'?'none':'block';
-    if(appMode==='methods')answerHint.textContent='쉼표·줄바꿈으로 구분 · Ctrl+Enter: 채점 / 다음 문제';
-    else if(appMode==='music')answerHint.textContent='쉼표로 구분 · 순서 자유 · Enter: 채점 / 다음 문제 · 쉼표·빗금으로 이어진 내용은 나누어 채점';
+    if(appMode==='methods')answerHint.textContent='Enter: 항목 구분 · Ctrl+Enter: 채점 / 다음 문제 · 쉼표도 사용 가능';
+    else if(appMode==='music')answerHint.textContent='Enter: 항목 구분 · Ctrl+Enter: 채점 / 다음 문제 · 순서 자유 · 쉼표도 사용 가능';
     else answerHint.textContent='Enter: 채점 / 다음 문제 · 답안을 고치면 다시 채점';
     if(appMode==='element'){
-        for(const field of [knowledgeAnswer,skillAnswer,attitudeAnswer])field.placeholder='쉼표 또는 줄바꿈으로 구분 · Ctrl+Enter: 채점 / 다음 문제';
+        for(const field of [knowledgeAnswer,skillAnswer,attitudeAnswer])field.placeholder='Enter: 항목 구분 · Ctrl+Enter: 채점 / 다음 문제';
     }
     const hasReference=learningHasReference();
     referenceToggle.style.display=hasReference?'block':'none';
