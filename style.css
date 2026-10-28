@@ -376,3 +376,10 @@ button{
     min-height:27px;
     color:#d63939;
 }
+
+/* 일괄 인출 채점 */
+#question { white-space: pre-line; }
+.recallWrong, #result .wrongChar { color: #c62828; font-weight: 700; }
+.recallCorrect { color: #18733c; }
+.recallFeedback { margin: 12px 0; line-height: 1.8; overflow-wrap: anywhere; }
+#answer.recallInput { min-height: 240px; }

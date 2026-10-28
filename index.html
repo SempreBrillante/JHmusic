@@ -26,6 +26,8 @@
     <div id="appModeOption" class="homeCard">
 
         <h2>학습 종류</h2>
+<label><input type="radio" name="appMode" value="core"> 핵심 아이디어 암기</label>
+<label><input type="radio" name="appMode" value="methods"> 방법과 평가</label>
 
         <label>
             <input type="radio" name="appMode" value="study" checked>
@@ -90,7 +92,13 @@
         </div>
 
     </div>
-    <div id="studyOption">
+    <div id="methodSelection" class="homeCard" style="display:none;">
+<h2>방법과 평가</h2>
+<label><input type="checkbox" value="methods" checked> 교수학습방법 (16개)</label>
+<label><input type="checkbox" value="evaluation" checked> 평가방법 (13개)</label>
+<p>각 목록 전체를 한 번에 인출합니다. 답의 순서는 자유입니다.</p>
+</div>
+<div id="studyOption">
 
     <div class="homeCard settingCard">
 
@@ -250,6 +258,7 @@
     <script src="script.js"></script>
     <script src="study.js"></script>
     <script src="element.js"></script>
+<script src="recall.js"></script>
     <script>
     (() => {
         const startGate = document.getElementById("startGate");

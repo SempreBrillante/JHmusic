@@ -65,6 +65,7 @@ function startQuiz(){
     document.querySelector(
         'input[name="appMode"]:checked'
     ).value;
+if(appMode === "core" || appMode === "methods"){ startRecallQuiz(); return; }
 setQuizMode();
     appModeOption.style.display = "none";
 

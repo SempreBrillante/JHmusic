@@ -348,6 +348,7 @@ let isChecked = false;
 
 answer.addEventListener("keydown", function(event){
 
+    if(appMode === "core" || appMode === "methods") return;
     if(event.key !== "Enter") return;
 
     event.preventDefault();
