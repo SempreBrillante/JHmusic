@@ -16,6 +16,14 @@ question.before(referenceToggle);referenceToggle.append(referenceTitle,question)
 quiz.insertBefore(result,quiz.querySelector('.buttons'));
 result.setAttribute('role','region');result.setAttribute('aria-label','채점 결과');
 result.tabIndex=-1;
+const gradingState=document.createElement('span');gradingState.className='gradingState';
+gradingState.textContent='✓ 채점 완료';
+quiz.querySelector('.buttons').insertBefore(gradingState,submitBtn);
+function syncStudyAccent(){
+    document.getElementById('appContent').dataset.homeMode=document.querySelector('input[name="appMode"]:checked').value;
+}
+document.querySelectorAll('input[name="appMode"]').forEach(radio=>radio.addEventListener('change',syncStudyAccent));
+syncStudyAccent();
 
 function learningAutoSize(field){
     if(field.style.display==='none')return;
@@ -43,7 +51,8 @@ function learningUpdate(){
     answerLabel.style.display=answerHint.style.display=appMode==='element'?'none':'block';
     if(appMode==='methods')answerHint.textContent='Enter: 항목 구분 · Ctrl+Enter: 채점 / 다음 문제 · 쉼표도 사용 가능';
     else if(appMode==='music')answerHint.textContent='Enter: 항목 구분 · Ctrl+Enter: 채점 / 다음 문제 · 순서 자유 · 쉼표도 사용 가능';
-    else answerHint.textContent='Enter: 채점 / 다음 문제 · 최초 채점 결과 유지';
+    else answerHint.textContent='Enter: 채점 / 다음 문제';
+    if(appMode!=='element')answer.placeholder=['study','core'].includes(appMode)?'답안을 입력하세요.':'한 항목씩 줄을 나누어 입력하세요.';
     if(appMode==='element'){
         for(const field of [knowledgeAnswer,skillAnswer,attitudeAnswer])field.placeholder='Enter: 항목 구분 · Ctrl+Enter: 채점 / 다음 문제';
     }
@@ -66,7 +75,7 @@ function learningFeedback(){
     if(appMode==='study'||appMode==='core'){
         const correct=appMode==='study'?current.text:current.items[0];
         if(!success){
-            body='<p class="feedbackLabel">빠진 글자는 정답 쪽에, 추가한 글자는 내 답안 쪽에, 바뀐 글자는 양쪽에 빨간색으로 표시합니다.</p>'+preciseComparisonMarkup(answer.value,correct);
+            body=preciseComparisonMarkup(answer.value,correct)+'<details class="comparisonHelp"><summary>빨간 표시 안내</summary><p>빠진 글자는 정답에, 추가한 글자는 내 답안에, 바뀐 글자는 양쪽에 표시합니다.</p></details>';
         }else body=learningDetails('정답 확인',`<p>${escapeHtml(correct)}</p>`);
     }else if(appMode==='element'){
         let total=0,matched=0;
@@ -122,8 +131,8 @@ function learningWrapGrade(original){return function(){
     question.innerHTML=reference;question.style.display=referenceDisplay;
     learningFeedback();learningButtons(true);
     const fixedNotice=document.createElement('p');fixedNotice.className='feedbackLabel firstGradeNotice';
-    fixedNotice.textContent='최초 채점 결과입니다. 고쳐 써도 결과는 유지되며, 오답은 마지막에 다시 인출합니다.';
-    result.prepend(fixedNotice);
+    fixedNotice.textContent='최초 결과 유지 · 오답은 마지막에 재인출';
+    result.append(fixedNotice);
     referenceToggle.style.display=learningHasReference()?'block':'none';
     sessionRemember(true,learningSession.records.get(current).correct);
     const bounds=result.getBoundingClientRect();
@@ -152,6 +161,7 @@ sessionFinish=function(){
     const counts=[['정답',questions.filter(q=>learningSession.records.get(q)?.graded&&learningSession.records.get(q).correct).length,'correct'],['오답',questions.filter(q=>learningSession.records.get(q)?.graded&&!learningSession.records.get(q).correct).length,'wrong'],['미채점',questions.filter(q=>!learningSession.records.get(q)?.graded).length,'pending']];
     for(const [label,count,kind] of counts){const stat=document.createElement('div');stat.className=`summaryStat ${kind}`;stat.innerHTML=`<strong>${count}</strong><span>${label}</span>`;stats.append(stat);}
     sessionSummary.querySelector('p').after(stats);
+    sessionSummary.querySelector('p').textContent=`총 ${questions.length}문제`;
     for(const item of sessionSummary.querySelectorAll('li')){
         if(item.textContent.startsWith('미채점'))item.className='pendingResult';
     }

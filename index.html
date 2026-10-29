@@ -52,6 +52,7 @@
     </div>
 
     <div id="home">
+    <div class="settingsLayout">
 
     <div class="homeGrid">
 
@@ -78,25 +79,12 @@
         <!-- 진로선택 -->
         <div class="homeCard">
 
-            <h2>진로선택</h2>
+            <h2>진로·융합 선택</h2>
 
             <div class="career">
-
-                <h3>음악 연주와 창작</h3>
-
-                <label><input type="checkbox" value="음악 연주와 창작|표현과 창작"> 표현과 창작</label>
-                <label><input type="checkbox" value="음악 연주와 창작|실천과 소통"> 실천과 소통</label>
-
-                <h3>음악 감상과 비평</h3>
-
-                <label><input type="checkbox" value="음악 감상과 비평|감상과 반응"> 감상과 반응</label>
-                <label><input type="checkbox" value="음악 감상과 비평|비평과 활용"> 비평과 활용</label>
-
-                <h3>음악과 미디어</h3>
-
-                <label><input type="checkbox" value="음악과 미디어|미디어 탐구"> 미디어 탐구</label>
-                <label><input type="checkbox" value="음악과 미디어|실용적 연계"> 실용적 연계</label>
-
+<section class="courseChoice"><h3>음악 연주와 창작</h3><div class="courseChoiceOptions"><label><input type="checkbox" value="음악 연주와 창작|표현과 창작"> 표현과 창작</label><label><input type="checkbox" value="음악 연주와 창작|실천과 소통"> 실천과 소통</label></div></section>
+<section class="courseChoice"><h3>음악 감상과 비평</h3><div class="courseChoiceOptions"><label><input type="checkbox" value="음악 감상과 비평|감상과 반응"> 감상과 반응</label><label><input type="checkbox" value="음악 감상과 비평|비평과 활용"> 비평과 활용</label></div></section>
+<section class="courseChoice"><h3>음악과 미디어</h3><div class="courseChoiceOptions"><label><input type="checkbox" value="음악과 미디어|미디어 탐구"> 미디어 탐구</label><label><input type="checkbox" value="음악과 미디어|실용적 연계"> 실용적 연계</label></div></section>
             </div>
 
         </div>
@@ -169,7 +157,7 @@
                 영역 → 내용요소
             </label>
 
-            <label style="margin-left:20px;">
+            <label>
                 <input type="radio"
                     name="elementSourceMode"
                     value="standard">
@@ -187,12 +175,12 @@
                 시험모드
             </label>
 
-            <label style="margin-left:20px;">
+            <label>
                 <input type="radio" name="elementStudyMode" value="blank">
                 빈칸모드
             </label>
 
-            <label style="margin-left:20px;">
+            <label>
                 <input type="radio" name="elementStudyMode" value="practice">
                 연습모드
             </label>
@@ -202,9 +190,10 @@
 
     </div>
 
+    </div><!-- settingsLayout -->
     <div class="buttonBox">
 
-        <button onclick="startQuiz()">시작하기</button>
+        <button class="startStudyButton" onclick="startQuiz()">시작하기</button>
 
         <button class="grayBtn" onclick="resetLevel()">학습 레벨 초기화</button>
 
