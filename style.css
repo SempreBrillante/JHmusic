@@ -574,3 +574,21 @@ button{font-size:15px;font-weight:600;}
  #sessionSummary .summaryActions button{font-size:15px;border-radius:10px;}
  #sessionSummary > p{font-size:14px;color:#697586;margin:0;}
 }
+
+/* 본문은 보통 굵기로, 제목·상태·오류 글자만 강조한다. */
+body{font-weight:400;}
+.titleMark{color:var(--ui-accent);font-weight:500;margin-right:3px;}
+#appContent .homeCard h3{font-weight:500;}
+#quiz .answerLabel,#elementAnswerBox h3,#result .comparisonLabel{font-weight:500;}
+#quiz .learningHeader #school,#quiz .learningHeader #progress{font-weight:400;}
+#quiz textarea,#quiz .referenceToggle #question,#result .preciseComparison p,#result .feedbackItems li{font-weight:400;}
+#result .feedbackHeading strong{font-weight:700;}
+#result .preciseComparison .wrongChar{font-weight:700;}
+#sessionSummary > ul li{font-weight:400;}
+.preciseComparison{border-color:#f0f2f5;}
+.preciseComparison > div + div{border-top-color:#f2f4f7;background:#fcfcfd;}
+#result .firstGradeNotice{border-top-color:#f2f4f7;}
+@media(min-width:701px){
+ #home label,#home .settingCard label{font-weight:400;}
+ #home .career h3,#home .settingCard h3{font-weight:500;}
+}
