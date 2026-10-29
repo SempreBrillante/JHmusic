@@ -1,0 +1,85 @@
+/* 책갈피를 유지하는 PC 학습 화면: 짙은 헤더, 또렷한 선택, 한 가지 주 행동색. */
+:root{--brand-navy:#14243b;--brand-blue:#365cf5;--brand-muted:#67758a;}
+body{background:#e9edf3;color:#24344a;}
+#appContent.container{background:#f7f9fc;border:1px solid #dce3ed;box-shadow:0 18px 54px rgba(20,36,59,.09);}
+#appContent > h1,#appContent.isStudying > h1{display:flex;align-items:center;gap:13px;background:var(--brand-navy);color:#fff;font-size:24px;font-weight:700;letter-spacing:-.035em;line-height:1.4;border-bottom:3px solid var(--brand-blue);}
+.titleMark{display:inline-grid;place-items:center;flex:0 0 42px;width:42px;height:42px;background:var(--brand-blue);color:#fff;border-radius:10px;font-size:27px;font-weight:500;margin:0;}
+.studyBookmarks h2{font-size:12px;font-weight:600;color:var(--brand-muted);letter-spacing:.04em;}
+.bookmarkList{gap:12px;}
+.bookmarkFace,.bookmarkTab input:checked + .bookmarkFace{min-height:94px;gap:8px;padding:13px 15px 26px;}
+.bookmarkFace{background:#fff;color:#3c4b61;box-shadow:inset 0 3px 0 color-mix(in srgb,var(--bookmark-ink) 40%,white);border-radius:8px 8px 0 0;}
+.bookmarkName{font-size:15px;font-weight:650;}
+.bookmarkNumber{font-size:11px;font-weight:600;opacity:.55;}
+.bookmarkTab input:checked + .bookmarkFace{background:var(--bookmark-ink);color:#fff;box-shadow:inset 0 3px 0 rgba(0,0,0,.1);}
+.bookmarkTab input:checked + .bookmarkFace .bookmarkNumber{opacity:.7;}
+.bookmarkTab:hover .bookmarkFace{background:var(--bookmark-paper);}
+.bookmarkTab:hover input:checked + .bookmarkFace{background:var(--bookmark-ink);}
+#home .homeCard,#sessionSummary.homeCard{background:#fff;border:1px solid #e0e6ef;box-shadow:0 3px 10px rgba(20,36,59,.025);border-radius:12px;}
+#home .homeCard h2,#sessionSummary.homeCard h2{display:flex;align-items:center;gap:9px;color:var(--brand-navy);font-weight:700;border:0;padding-bottom:0;}
+#home .homeCard h2::before,#sessionSummary.homeCard h2::before{content:'';width:4px;height:16px;flex:none;border-radius:2px;background:var(--ui-accent);}
+#home .career h3,#home .settingCard h3{color:#617087;}
+#home .checkGrid label,#home .courseChoiceOptions label,#methodSelection > label{box-sizing:border-box;padding:9px 10px;border:1px solid transparent;background:#f4f6fa;border-radius:7px;font-weight:400;}
+#home .checkGrid label:has(input:checked),#home .courseChoiceOptions label:has(input:checked),#methodSelection > label:has(input:checked){background:var(--ui-paper);border-color:color-mix(in srgb,var(--ui-accent) 42%,white);color:var(--ui-accent);font-weight:600;}
+#home .checkGrid label:hover,#home .courseChoiceOptions label:hover,#methodSelection > label:hover{border-color:#bec9d9;}
+#home .settingCard input{accent-color:var(--brand-blue);}
+#home input:focus-visible{outline:2px solid var(--brand-blue);outline-offset:3px;}
+#home p,.answerHint{color:var(--brand-muted);}
+#home .buttonBox{border-top-color:#dce3ed;}
+#home .buttonBox .startStudyButton,#quiz .buttons button.primaryAction,#sessionSummary button.primaryAction{background:var(--brand-blue);border-color:var(--brand-blue);color:#fff;box-shadow:0 3px 8px rgba(54,92,245,.16);}
+#home .buttonBox .startStudyButton:hover,#quiz .buttons button.primaryAction:hover,#sessionSummary button.primaryAction:hover{background:#274bdd;border-color:#274bdd;transform:none;}
+#home .buttonBox .grayBtn:hover{color:#24344a;background:transparent;text-decoration:underline;text-underline-offset:3px;}
+#quiz .learningHeader{padding-bottom:17px;border-bottom:1px solid #dfe5ee;}
+#quiz .learningHeader #school{font-size:13px;color:#64748b;}
+#quiz .learningHeader #area{color:var(--brand-navy);font-size:24px;letter-spacing:-.025em;}
+#quiz .learningHeader #code{border:1px solid color-mix(in srgb,var(--ui-accent) 16%,white);font-size:13px;padding:4px 9px;border-radius:6px;}
+#quiz .learningHeader #progress{background:var(--brand-navy);color:#fff;font-size:13px;font-weight:600;border-radius:999px;padding:4px 12px;}
+#quiz .answerLabel,#elementAnswerBox h3{font-size:13px;letter-spacing:.02em;color:#4c5e76;}
+#quiz textarea{background:#fff;border:1px solid #c8d2e0;border-radius:10px;color:#24344a;box-shadow:0 2px 5px rgba(20,36,59,.025);transition:border-color .15s,box-shadow .15s;}
+#quiz textarea:focus{border-color:var(--brand-blue);box-shadow:0 0 0 3px rgba(54,92,245,.1);}
+#quiz #result{border-radius:12px;box-shadow:none;}
+#quiz #result.feedbackError{background:#fff9f9;border-color:#efcfcf;}
+#quiz #result.feedbackSuccess{background:#f2f9f5;border-color:#cce4d5;}
+.preciseComparison{border:0;border-radius:8px;background:#fff;box-shadow:none;}
+.preciseComparison > div + div{border-top:1px solid #f0f2f6;background:#fcfdff;}
+.comparisonLabel{letter-spacing:.02em;color:#758296;}
+.preciseComparison p{color:#24344a;}
+.preciseComparison .wrongChar{color:#c62828;}
+#quiz .buttons button{box-shadow:none;background:#edf1f7;border-color:#e0e6ef;color:#52627a;}
+.gradingState{border-radius:999px;background:#eaf0f7;color:#617087;padding:6px 12px;justify-self:center;}
+#sessionSummary .summaryStat{background:#f5f7fb;border:0;border-radius:10px;padding:20px;}
+#sessionSummary .summaryStat strong{font-size:34px;font-weight:700;}
+#sessionSummary > ul li{border-bottom-color:#edf1f6;}
+#sessionSummary .summaryActions button{background:#edf1f7;color:#52627a;}
+#sessionSummary .summaryActions button.primaryAction{background:var(--brand-blue);border-color:var(--brand-blue);color:#fff;}
+.startCard{background:var(--brand-navy);color:#fff;border:1px solid #243a56;}
+.startCard h1{display:flex;align-items:center;gap:12px;color:#fff;text-align:left;font-size:24px;letter-spacing:-.035em;}
+.startCard p{color:#b9c8dd;}
+.startCard input{border:1px solid #ced7e5;font-family:inherit;background:#fff;}
+.startCard button{background:var(--brand-blue);box-shadow:0 4px 14px rgba(0,0,0,.12);}
+.startCard .startGateMessage{color:#ffbac5;}
+@media(min-width:701px){
+ #appContent.container{width:1080px;padding:28px 30px;border-radius:18px;}
+ #appContent > h1,#appContent.isStudying > h1{margin:-28px -30px 25px;padding:23px 30px;border-radius:17px 17px 0 0;min-height:44px;}
+ .studyBookmarks{margin-bottom:22px;}
+ #home .homeCard,#sessionSummary.homeCard{padding:22px;}
+ #home .homeCard h2,#sessionSummary.homeCard h2{font-size:17px;margin-bottom:16px;}
+ #home .checkGrid{gap:8px 10px;}
+ #home .checkGrid label,#home .courseChoiceOptions label{margin:0;font-size:14px;}
+ .courseChoice + .courseChoice{margin-top:14px;padding-top:14px;}
+ .courseChoiceOptions{gap:8px 10px;}
+ #home .career h3{margin-bottom:8px;font-size:13px;}
+ #home .settingCard h3{font-size:12px;}
+ #home .settingCard label{font-size:14px;}
+ #methodSelection > label{font-size:14px;margin:0 8px 6px 0;}
+ #home .buttonBox{margin-top:20px;padding-top:20px;}
+ #home .buttonBox .startStudyButton{min-height:46px;width:220px;border-radius:9px;}
+ #quiz .buttons{gap:12px;}
+ #quiz .buttons button{border-radius:8px;min-height:46px;}
+ #sessionSummary .summaryActions button{border-radius:8px;min-height:46px;}
+}
+@media(max-width:700px){
+ #appContent > h1,#appContent.isStudying > h1{margin:-22px -18px 22px;padding:18px;font-size:20px;border-radius:18px 18px 0 0;}
+ .titleMark{flex-basis:34px;width:34px;height:34px;font-size:23px;}
+ #quiz .learningHeader #area{font-size:21px;}
+}
+@media(prefers-reduced-motion:reduce){#quiz textarea{transition:none;}}
