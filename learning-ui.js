@@ -66,6 +66,16 @@ function learningUpdate(){
     if(record?.feedback)result.className=record.feedbackClass || `learningFeedback ${record.correct?'feedbackSuccess':'feedbackError'}`;
     result.hidden=!record?.feedback;
     for(const field of sessionFields())learningAutoSize(field);
+    focusLearningAnswer();
+}
+function focusLearningAnswer(){
+    if(!learningSession||quiz.style.display==='none')return;
+    const field=sessionFields().find(input=>input.getClientRects().length && !input.disabled);
+    if(!field)return;
+    field.focus({preventScroll:true});
+    field.setSelectionRange(field.value.length,field.value.length);
+    const bounds=field.getBoundingClientRect();
+    if(bounds.top<0||bounds.top>innerHeight-80)field.scrollIntoView({block:'center',behavior:'instant'});
 }
 function learningDetails(title,body){return `<details class="feedbackDetails"><summary>${title}</summary>${body}</details>`;}
 function learningItems(items,kind){return `<ul class="feedbackItems ${kind}">${items.map(s=>`<li>${escapeHtml(s)}</li>`).join('')}</ul>`;}
@@ -169,6 +179,25 @@ sessionFinish=function(){
     actions.append(...sessionSummary.querySelectorAll('button'));sessionSummary.append(actions);
     actions.firstChild.classList.add('primaryAction');
     sessionSummary.scrollIntoView({block:'start',behavior:'instant'});
+    if(appMode==='element'){
+        const retry=document.getElementById('retryWrongBtn');
+        if(retry&&!retry.disabled)retry.focus({preventScroll:true});
+        else{sessionSummary.tabIndex=-1;sessionSummary.focus({preventScroll:true});}
+    }
 };
 const learningHome=goHome;
 goHome=function(){document.getElementById('appContent').classList.remove('isStudying');learningHome();};
+
+// 내용요소 결과 화면의 기본 Enter 동작은 기존 오답·미채점 재도전이다.
+document.addEventListener('keydown',event=>{
+    if(event.defaultPrevented)return;
+    if(appMode!=='element'||!learningSession||sessionSummary.style.display==='none')return;
+    if(event.key!=='Enter'||event.isComposing||event.keyCode===229||event.altKey)return;
+    const retry=document.getElementById('retryWrongBtn');
+    if(!retry||retry.disabled)return;
+    const button=event.target.closest?.('button');
+    if(button&&button!==retry)return;
+    event.preventDefault();
+    if(event.repeat)return;
+    retry.click();
+});

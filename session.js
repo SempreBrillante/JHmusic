@@ -59,6 +59,7 @@ function sessionFinish(){
     });
     sessionSummary.append(list);
     const retry=document.createElement('button');
+    retry.id='retryWrongBtn';
     retry.textContent=`오답·미채점 재도전 (${learningSession.retry.length})`;
     retry.disabled=!learningSession.retry.length;
     retry.onclick=()=>sessionRestart(false);
