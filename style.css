@@ -592,3 +592,8 @@ body{font-weight:400;}
  #home label,#home .settingCard label{font-weight:400;}
  #home .career h3,#home .settingCard h3{font-weight:500;}
 }
+
+/* 내 답안의 오류는 빨강, 정답에서 보충할 내용은 초록으로 구별한다. */
+#result .preciseComparison > div:nth-child(2) .wrongChar{color:#18733c;background:#edf8f1;text-decoration-color:#9dcab0;}
+#result .feedbackItems.missingItems li{color:#18733c;border-color:#c6e2d1;background:#f0f8f3;}
+#result .feedbackItems.extraItems li{color:#b42323;border-color:#edc8c8;background:#fff5f5;}

@@ -85,7 +85,7 @@ function learningFeedback(){
     if(appMode==='study'||appMode==='core'){
         const correct=appMode==='study'?current.text:current.items[0];
         if(!success){
-            body=preciseComparisonMarkup(answer.value,correct)+'<details class="comparisonHelp"><summary>빨간 표시 안내</summary><p>빠진 글자는 정답에, 추가한 글자는 내 답안에, 바뀐 글자는 양쪽에 표시합니다.</p></details>';
+            body=preciseComparisonMarkup(answer.value,correct)+'<details class="comparisonHelp"><summary>색상 표시 안내</summary><p>내 답안의 틀리거나 추가된 부분은 빨간색, 정답에서 보충하거나 고쳐야 할 부분은 초록색으로 표시합니다.</p></details>';
         }else body=learningDetails('정답 확인',`<p>${escapeHtml(correct)}</p>`);
     }else if(appMode==='element'){
         let total=0,matched=0;
@@ -116,7 +116,7 @@ function learningFeedback(){
         if(wrong.length)body+=`<section><h4>잘못 입력한 항목 ${wrong.length}개</h4>${wrong.map(r=>preciseComparisonMarkup(r.user,r.correct)).join('')}</section>`;
         if(missing.length)body+=`<section><h4>누락 ${missing.length}개</h4>${learningItems(missing.map(r=>r.correct),'missingItems')}</section>`;
         const extras=[...grade.extras.filter(e=>e.duplicate),...paired.extras.map(text=>({text,duplicate:false}))];
-        if(extras.length)body+=`<section><h4>중복·추가 입력</h4>${learningItems(extras.map(e=>`${e.duplicate?'중복 · 한 번만 인정':'목록 밖 입력'}: ${e.text}`),'missingItems')}</section>`;
+        if(extras.length)body+=`<section><h4>중복·추가 입력</h4>${learningItems(extras.map(e=>`${e.duplicate?'중복 · 한 번만 인정':'목록 밖 입력'}: ${e.text}`),'extraItems')}</section>`;
         if(right.length&&!success)body+=learningDetails(`맞힌 항목 ${right.length}개`,learningItems(right.map(r=>r.correct),'correctItems'));
         body+=learningDetails('전체 정답',learningItems(current.guideItems||current.items,''));
     }
